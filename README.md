@@ -22,6 +22,14 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
+## 📺 Demos
+
+Check out our templates in action:
+
+### Demo 1: Page without scrollbar
+<video src="public/demos/demo1.mp4" controls width="100%"></video>
+
+
 ## 📁 Project Structure
 
 - `src/app`: Contains the main routes and pages (e.g., `/dashboard`, `/demo1`).
