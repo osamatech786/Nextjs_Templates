@@ -28,7 +28,7 @@ Check out our templates in action:
 
 ### Demo 1: Page without scrollbar
 
-<video src="https://github.com/osamatech786/Nextjs_Templates/raw/main/public/demos/demo1.mp4" controls width="100%"></video>
+<video src="https://github.com/osamatech786/Nextjs_Templates/blob/main/public/demos/demo1.mp4" controls width="100%"></video>
 
 
 
