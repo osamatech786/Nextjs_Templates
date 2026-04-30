@@ -23,7 +23,7 @@ export default function Home() {
       transition: {
         type: "spring",
         stiffness: 100,
-      },
+      } as const,
     },
   };
 
@@ -91,7 +91,7 @@ export default function Home() {
               Browse Templates <ArrowRight className="w-5 h-5" />
             </button>
           </Link>
-          <a href="https://github.com/osamatech786/nextjs-templates" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/osamatech786/Nextjs_Templates" target="_blank" rel="noopener noreferrer">
             <button className="px-8 py-4 rounded-xl glass border border-white/10 hover:bg-white/5 text-white font-bold transition-all flex items-center gap-2">
               <Monitor className="w-5 h-5" /> View Github
             </button>
