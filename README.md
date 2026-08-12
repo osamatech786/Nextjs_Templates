@@ -2,6 +2,8 @@
 
 A premium collection of high-performance, aesthetically pleasing Next.js templates. Built with React 19, Next.js 16, Framer Motion, and Lucide React.
 
+**🔴 Live Demo:** [https://osamatech786.github.io/Nextjs_Templates/](https://osamatech786.github.io/Nextjs_Templates/)
+
 ## 🚀 Getting Started
 
 ### 1. Install Dependencies
@@ -22,21 +24,31 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-## 📺 Demos
+## 📺 The Collection
 
-Check out our templates in action:
+We feature **10 unique templates**, each residing in its own isolated directory for easy copying into your own projects. 
 
-### Demo 1: Page without scrollbar
-
+### Featured: Demo 1 - The Scroll-less Experience
+A prestigious, novel concept featuring absolutely zero scrollbars, smooth transitions, and pure glassmorphism.
 <video src="https://github.com/osamatech786/Nextjs_Templates/blob/main/public/demos/demo1.mp4" controls width="100%"></video>
 
-
+### Other Templates Included:
+- **Glassmorphism Dashboards** (Variants 1 & 2)
+- **Immersive 3D Portfolio Hero**
+- **3D Card Carousel**
+- **Neon Cyberpunk Landing**
+- **SVG Data Visualization**
+- **Neumorphic Audio Player**
+- **Organic Fluid Animation**
+- **LUXE - Minimal Luxury E-commerce**
+- **Particle Hero**
 
 ## 📁 Project Structure
 
-- `src/app`: Contains the main routes and pages (e.g., `/dashboard`, `/demo1`).
-- `src/components`: Reusable UI components categorized by layout, shared, and atomic UI elements.
-- `public`: Static assets like images and fonts.
+- `src/app`: Contains the homepage (`page.tsx`) and the global layout.
+- `src/app/demos/[template-name]`: Contains the standalone Next.js React components for all 10 templates.
+- `src/components`: Reusable UI components.
+- `public`: Static assets like videos, images, and fonts.
 
 ## 🛠️ Tech Stack
 
@@ -44,7 +56,7 @@ Check out our templates in action:
 - **Library**: [React 19](https://react.dev/)
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **Icons**: [Lucide React](https://lucide.dev/)
-- **Styling**: Vanilla CSS / CSS Modules
+- **Styling**: Vanilla CSS & Tailwind CSS
 
 ## 📖 Learn More
 

@@ -1,249 +1,468 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowRight, Code2, Sparkles, Layout, Zap, Monitor, Download, Package, Settings2, CheckCircle2, Globe } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+
+const templates = [
+  // Signature Experience
+  { id: "demo1", name: "The Scroll-less Experience", href: "/demo1", category: "Featured Masterpiece" },
+
+  // Realistic Production Apps
+  { id: "saas", name: "SaaS Pricing Matrix", href: "/demos/design6-saas-pricing", category: "B2B SaaS" },
+  { id: "fintech", name: "Corporate Expense Dashboard", href: "/demos/design7-fintech-dashboard", category: "Expense Management" },
+  { id: "hr", name: "Enterprise HR Platform", href: "/demos/design1-glassmorphism-dashboard", category: "Internal Tools" },
+  { id: "ecommerce", name: "Minimal Luxury E-commerce", href: "/demos/design5-minimal-luxury-ecommerce", category: "Retail & E-commerce" },
+  
+  // Interactive Components & Experiments
+  { id: "ai", name: "Neon Cyberpunk Landing", href: "/demos/design3-neon-cyberpunk-landing", category: "Landing Pages" },
+  { id: "design1-3d", name: "Immersive 3D Hero", href: "/demos/design1-immersive-3d-portfolio", category: "3D Experiment" },
+  { id: "design2-carousel", name: "3D Magnetic Carousel", href: "/demos/design2-3d-carousel", category: "Interaction" },
+  { id: "design2-dashboard2", name: "Glassmorphism v2", href: "/demos/design2-glassmorphism-dashboard", category: "UI Component" },
+  { id: "design3-dataviz", name: "SVG Data Visualization", href: "/demos/design3-svg-dataviz", category: "Data Display" },
+  { id: "design4-audio", name: "Neumorphic Audio Player", href: "/demos/design4-neu-audio-player", category: "UI Component" },
+  { id: "design4-fluid", name: "Organic Fluid Animation", href: "/demos/design4-organic-fluid-animation", category: "Interaction" },
+  { id: "design5-particle", name: "Particle Hero", href: "/demos/design5-particle-hero", category: "Interaction" }
+];
 
 export default function Home() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
+  const [activeTemplate, setActiveTemplate] = useState(templates[0]);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHoveringIframe, setIsHoveringIframe] = useState(false);
+  const [displayUrl, setDisplayUrl] = useState("localhost:3000");
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-      } as const,
-    },
-  };
+  // Grab the actual host for the mock URL bar
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const host = window.location.host;
+      const basePath = window.location.pathname === '/' ? '' : window.location.pathname.replace(/\/$/, '');
+      setDisplayUrl(host + basePath);
+    }
+  }, []);
 
-  const templates = [
-    {
-      id: "demo1",
-      name: "Demo 1",
-      description: "A premium scroll-reveal template with smooth transitions and glassmorphism.",
-      href: "/demo1",
-      status: "Available",
-      icon: <Sparkles className="w-6 h-6 text-indigo-400" />,
-    },
-    {
-      id: "coming-soon",
-      name: "Dashboard Pro",
-      description: "Enterprise-grade dashboard with advanced data visualization and modular components.",
-      href: "#",
-      status: "Coming Soon",
-      icon: <Layout className="w-6 h-6 text-purple-400" />,
-    },
-    {
-      id: "coming-soon-2",
-      name: "SaaS Landing",
-      description: "High-conversion landing page for modern SaaS products with dark/light modes.",
-      href: "#",
-      status: "Coming Soon",
-      icon: <Zap className="w-6 h-6 text-pink-400" />,
-    },
-  ];
+  // Mouse tracking for custom cursor and ambient glow
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex flex-col items-center">
-      {/* Animated Background Orbs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-600/20 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-purple-600/20 blur-[120px] pointer-events-none" />
-
-      {/* Hero Section */}
-      <motion.section
-        className="pt-32 pb-20 px-6 max-w-5xl w-full text-center relative z-10"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+    <div className="portal-container">
+      {/* Ambient Mouse Glow */}
+      <div 
+        className="ambient-glow"
+        style={{
+          transform: `translate(${mousePosition.x - 300}px, ${mousePosition.y - 300}px)`,
+        }}
+      />
+      
+      {/* Custom Cursor */}
+      <motion.div 
+        className="custom-cursor"
+        animate={{
+          x: mousePosition.x - 10,
+          y: mousePosition.y - 10,
+          scale: isHoveringIframe ? 4 : 1,
+          backgroundColor: isHoveringIframe ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.5)",
+          mixBlendMode: isHoveringIframe ? "normal" : "difference"
+        }}
+        transition={{ type: "spring", stiffness: 500, damping: 28, mass: 0.5 }}
       >
-        <motion.div
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 mb-8"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          <Code2 className="w-4 h-4 text-indigo-400" />
-          <span className="text-sm font-medium text-slate-300">Premium Next.js Templates</span>
-        </motion.div>
+        {isHoveringIframe && <span className="cursor-text">VIEW</span>}
+      </motion.div>
 
-        <h1 className="text-6xl md:text-8xl font-extrabold mb-6 tracking-tight">
-          Crafting <span className="gradient-text">Future-Proof</span> Experiences
-        </h1>
-
-        <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10">
-          A curated collection of high-performance, aesthetically stunning Next.js templates for developers who demand excellence.
-        </p>
-
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link href="#templates">
-            <button className="px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 shadow-lg shadow-indigo-600/20">
-              Browse Templates <ArrowRight className="w-5 h-5" />
-            </button>
-          </Link>
-          <a href="https://github.com/osamatech786/Nextjs_Templates" target="_blank" rel="noopener noreferrer">
-            <button className="px-8 py-4 rounded-xl glass border border-white/10 hover:bg-white/5 text-white font-bold transition-all flex items-center gap-2">
-              <Monitor className="w-5 h-5" /> View Github
-            </button>
-          </a>
-          <a href="https://www.linkedin.com/in/osamatech786" target="_blank" rel="noopener noreferrer">
-            <button className="px-8 py-4 rounded-xl glass border border-white/10 hover:bg-white/5 text-white font-bold transition-all flex items-center gap-2">
-              <Globe className="w-5 h-5 text-indigo-400" /> LinkedIn
-            </button>
-          </a>
-        </div>
-      </motion.section>
-
-      {/* Templates Grid */}
-      <motion.section
-        id="templates"
-        className="py-20 px-6 max-w-6xl w-full relative z-10"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-      >
-        <div className="flex items-end justify-between mb-12">
-          <div>
-            <h2 className="text-4xl font-bold mb-4">The Collection</h2>
-            <p className="text-slate-400">Select a template to view the live demonstration.</p>
+      <div className="portal-split">
+        
+        {/* Left Side: Massive Typography List */}
+        <div className="portal-left" ref={scrollRef}>
+          <div className="portal-header">
+            <h1 className="brand-name">OSAMATECH786</h1>
+            <p className="brand-subtitle">Curated Frontend Masterpieces</p>
+          </div>
+          
+          <nav className="project-list">
+            {templates.map((template, index) => {
+              const isActive = activeTemplate.id === template.id;
+              return (
+                <div 
+                  key={template.id}
+                  className={`project-item ${isActive ? "active" : ""}`}
+                  onMouseEnter={() => setActiveTemplate(template)}
+                >
+                  <span className="project-number">{(index + 1).toString().padStart(2, '0')}</span>
+                  <div className="project-content">
+                    <Link href={template.href} className="project-link">
+                      <h2 className="project-title">{template.name}</h2>
+                    </Link>
+                    <div className="project-category-wrapper">
+                      <span className="project-category">{template.category}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </nav>
+          
+          <div className="portal-footer" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <p style={{ color: '#888', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Let's build something amazing</p>
+            <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+              <a href="https://calendly.com/osamatech786-jdqf/20min" target="_blank" rel="noopener noreferrer" className="hire-btn">
+                Book a Call <ArrowUpRight className="icon" />
+              </a>
+              <a href="mailto:osamatech786@gmail.com" className="hire-btn">
+                Email Me <ArrowUpRight className="icon" />
+              </a>
+              <a href="https://linkedin.com/in/osamatech786" target="_blank" rel="noopener noreferrer" className="hire-btn">
+                LinkedIn <ArrowUpRight className="icon" />
+              </a>
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {templates.map((template) => (
-            <motion.div
-              key={template.id}
-              variants={itemVariants}
-              className={`group relative p-8 rounded-2xl glass border border-white/5 hover:border-indigo-500/30 transition-all duration-500 ${template.status === "Coming Soon" ? "opacity-75" : ""}`}
-            >
-              <div className="mb-6 p-3 rounded-xl bg-slate-800/50 w-fit group-hover:scale-110 transition-transform duration-500">
-                {template.icon}
+        {/* Right Side: The Live Preview Iframe */}
+        <div className="portal-right">
+          <div 
+            className="iframe-glass-container"
+            onMouseEnter={() => setIsHoveringIframe(true)}
+            onMouseLeave={() => setIsHoveringIframe(false)}
+            onClick={() => window.location.href = `${process.env.NODE_ENV === 'production' ? '/Nextjs_Templates' : ''}${activeTemplate.href}`}
+          >
+            <div className="iframe-header">
+              <div className="window-controls">
+                <span className="control close"></span>
+                <span className="control min"></span>
+                <span className="control max"></span>
               </div>
-
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-2xl font-bold">{template.name}</h3>
-                <span className={`text-[10px] uppercase tracking-widest px-2 py-1 rounded-md font-bold ${template.status === "Available" ? "bg-emerald-500/10 text-emerald-400" : "bg-indigo-500/10 text-indigo-400"}`}>
-                  {template.status}
-                </span>
-              </div>
-
-              <p className="text-slate-400 mb-8 leading-relaxed">
-                {template.description}
-              </p>
-
-              {template.status === "Available" ? (
-                <Link href={template.href} className="flex items-center gap-2 text-indigo-400 font-bold group-hover:gap-3 transition-all">
-                  View Demo <ArrowRight className="w-4 h-4" />
-                </Link>
-              ) : (
-                <div className="flex items-center gap-2 text-slate-500 font-bold italic cursor-not-allowed">
-                  Under Construction
-                </div>
-              )}
-
-              {/* Decorative gradient overlay on hover */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-600/0 to-purple-600/0 group-hover:from-indigo-600/5 group-hover:to-purple-600/5 pointer-events-none transition-all duration-500" />
-            </motion.div>
-          ))}
+              <div className="url-bar">{displayUrl}{activeTemplate.href}</div>
+            </div>
+            
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTemplate.id}
+                initial={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
+                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                exit={{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}
+                transition={{ duration: 0.4, ease: [0.19, 1, 0.22, 1] }}
+                className="iframe-wrapper"
+              >
+                {/* Pointer events none so it doesn't trap scroll or cursor until they actually click to visit */}
+                <iframe 
+                  src={`${process.env.NODE_ENV === 'production' ? '/Nextjs_Templates' : ''}${activeTemplate.href}`} 
+                  title={activeTemplate.name}
+                  className="live-iframe"
+                  tabIndex={-1}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
-      </motion.section>
+        
+      </div>
 
-      {/* How to Use Section */}
-      <motion.section
-        className="py-24 px-6 max-w-6xl w-full relative z-10"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-      >
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">How to Use</h2>
-          <p className="text-slate-400 max-w-2xl mx-auto">Integration is seamless. Follow these steps to bring any template into your own Next.js project.</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {[
-            {
-              step: "01",
-              title: "Pick & Copy",
-              desc: "Choose a template and copy its directory from src/app/ into your project.",
-              icon: <Download className="w-6 h-6 text-indigo-400" />,
-            },
-            {
-              step: "02",
-              title: "Install Deps",
-              desc: "Run 'npm install framer-motion lucide-react' to ensure all animations work.",
-              icon: <Package className="w-6 h-6 text-purple-400" />,
-            },
-            {
-              step: "03",
-              title: "Styles & Config",
-              desc: "Copy the associated CSS files and update any font/color variables in your globals.",
-              icon: <Settings2 className="w-6 h-6 text-pink-400" />,
-            },
-            {
-              step: "04",
-              title: "Go Live",
-              desc: "Import the component, update your routes, and you're ready to deploy!",
-              icon: <CheckCircle2 className="w-6 h-6 text-emerald-400" />,
-            },
-          ].map((item, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              className="relative p-8 rounded-2xl glass border border-white/5 flex flex-col items-center text-center group hover:bg-white/5 transition-all duration-500"
-            >
-              <div className="absolute -top-4 -left-4 w-10 h-10 rounded-full bg-slate-900 border border-white/10 flex items-center justify-center text-xs font-bold text-slate-500 z-20 group-hover:border-indigo-500/50 group-hover:text-indigo-400 transition-colors">
-                {item.step}
-              </div>
-              <div className="mb-6 p-4 rounded-2xl bg-slate-800/50 group-hover:scale-110 transition-transform duration-500">
-                {item.icon}
-              </div>
-              <h3 className="text-xl font-bold mb-3">{item.title}</h3>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                {item.desc}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-
-        <motion.div
-          className="mt-16 p-8 rounded-3xl border border-dashed border-white/10 bg-indigo-500/5 text-center"
-          variants={itemVariants}
-        >
-          <p className="text-slate-300 italic">
-            "Designed for modularity. Every template is self-contained for maximum portability."
-          </p>
-        </motion.div>
-      </motion.section>
-
-      {/* Footer */}
-      <footer className="mt-auto py-12 text-center text-slate-500 border-t border-white/5 w-full bg-black/20 backdrop-blur-sm">
-        <p className="text-sm">© {new Date().getFullYear()} Next.js Templates. Built with ❤️ for the community.</p>
-      </footer>
-
-      <style jsx>{`
-        .glass {
-          background: rgba(255, 255, 255, 0.03);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+      <style jsx global>{`
+        /* Reset and Base Portal Styles */
+        body {
+          margin: 0;
+          padding: 0;
+          overflow: hidden; /* Lock body scrolling! */
+          background-color: #050505;
+          color: #ffffff;
+          cursor: none; /* Hide default cursor */
         }
-        .gradient-text {
-          background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
+
+        .portal-container {
+          width: 100vw;
+          height: 100vh;
+          position: relative;
+          display: flex;
+          background: radial-gradient(circle at 50% 50%, #111 0%, #000 100%);
+        }
+
+        /* Ambient Glow Tracking Mouse */
+        .ambient-glow {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 600px;
+          height: 600px;
+          background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0,0,0,0) 70%);
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 1;
+          transition: opacity 0.5s;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 9999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .cursor-text {
+          color: #000;
+          font-size: 3px;
+          font-weight: 800;
+          letter-spacing: 0.5px;
+          transform: scale(0.8);
+        }
+
+        /* Split Layout */
+        .portal-split {
+          display: flex;
+          width: 100%;
+          height: 100%;
+          z-index: 10;
+        }
+
+        /* LEFT PANEL: TYPOGRAPHY */
+        .portal-left {
+          flex: 0 0 45%;
+          height: 100%;
+          overflow-y: auto;
+          padding: 4rem 4rem 10rem 4rem;
+          scrollbar-width: none; /* Firefox */
+          display: flex;
+          flex-direction: column;
+        }
+        .portal-left::-webkit-scrollbar {
+          display: none;
+        }
+
+        .portal-header {
+          margin-bottom: 6rem;
+        }
+        .brand-name {
+          font-family: var(--font-outfit), sans-serif;
+          font-size: 1.5rem;
+          font-weight: 900;
+          letter-spacing: 0.2em;
+          margin: 0;
+        }
+        .brand-subtitle {
+          color: #888;
+          font-size: 0.9rem;
+          margin-top: 0.5rem;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+        }
+
+        .project-list {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+        }
+
+        .project-item {
+          padding: 1.5rem 0;
+          border-bottom: 1px solid rgba(255,255,255,0.05);
+          display: flex;
+          align-items: flex-start;
+          transition: all 0.4s ease;
+          opacity: 0.4;
+        }
+        .project-item:hover, .project-item.active {
+          opacity: 1;
+          padding-left: 2rem;
+          border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .project-number {
+          font-family: monospace;
+          font-size: 1rem;
+          color: #666;
+          margin-right: 2rem;
+          margin-top: 1rem;
+        }
+
+        .project-content {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .project-title {
+          font-family: var(--font-outfit), sans-serif;
+          font-size: 3.5rem;
+          font-weight: 800;
+          line-height: 1.1;
+          margin: 0;
+          letter-spacing: -0.03em;
+          text-transform: uppercase;
+          background: linear-gradient(135deg, #fff, #888);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
-          background-clip: text;
+          transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .project-item.active .project-title {
+          background: linear-gradient(135deg, #fff, #fff);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          transform: scale(1.05);
+          transform-origin: left center;
+        }
+
+        .project-category-wrapper {
+          height: 0;
+          overflow: hidden;
+          transition: height 0.4s ease;
+          margin-top: 0;
+        }
+        .project-item.active .project-category-wrapper {
+          height: 24px;
+          margin-top: 0.5rem;
+        }
+
+        .project-category {
+          font-size: 0.8rem;
+          color: #6366f1;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          opacity: 0;
+          transform: translateY(-10px);
+          display: block;
+          transition: all 0.4s ease;
+        }
+        .project-item.active .project-category {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .portal-footer {
+          margin-top: auto;
+          padding-top: 6rem;
+        }
+        .hire-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 1rem;
+          font-weight: 700;
+          color: #fff;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          transition: all 0.3s;
+        }
+        .hire-btn:hover {
+          color: #6366f1;
+          gap: 1rem;
+        }
+        .icon {
+          width: 1.2rem;
+          height: 1.2rem;
+        }
+
+        /* RIGHT PANEL: LIVE IFRAME */
+        .portal-right {
+          flex: 0 0 55%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 4rem;
+          perspective: 2000px; /* For 3D tilt effect */
+        }
+
+        .iframe-glass-container {
+          width: 100%;
+          height: 85%;
+          background: rgba(255, 255, 255, 0.02);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 1.5rem;
+          overflow: hidden;
+          box-shadow: 0 40px 100px -20px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.05);
+          display: flex;
+          flex-direction: column;
+          transform: rotateY(-5deg) rotateX(2deg); /* Subtle 3D isometric tilt */
+          transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.5s ease;
+          cursor: none; /* Let custom cursor take over */
+        }
+        .iframe-glass-container:hover {
+          transform: rotateY(0deg) rotateX(0deg) scale(1.02);
+          box-shadow: 0 50px 120px -20px rgba(99, 102, 241, 0.3), inset 0 0 0 1px rgba(255,255,255,0.1);
+        }
+
+        .iframe-header {
+          height: 40px;
+          background: rgba(0,0,0,0.4);
+          display: flex;
+          align-items: center;
+          padding: 0 1.5rem;
+          border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .window-controls {
+          display: flex;
+          gap: 8px;
+        }
+        .control {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+        }
+        .close { background: #ff5f56; }
+        .min { background: #ffbd2e; }
+        .max { background: #27c93f; }
+        
+        .url-bar {
+          margin-left: 2rem;
+          font-family: monospace;
+          font-size: 0.8rem;
+          color: #666;
+          background: rgba(255,255,255,0.05);
+          padding: 4px 12px;
+          border-radius: 4px;
+        }
+
+        .iframe-wrapper {
+          flex: 1;
+          width: 100%;
+          height: 100%;
+          background: #000;
+        }
+        
+        .live-iframe {
+          width: 100%;
+          height: 100%;
+          border: none;
+          pointer-events: none; /* Crucial: stops iframe from eating hover events */
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 1024px) {
+          body {
+            overflow: auto; /* Restore scroll for mobile */
+            cursor: auto;
+          }
+          .custom-cursor, .ambient-glow {
+            display: none;
+          }
+          .portal-split {
+            flex-direction: column;
+          }
+          .portal-left {
+            flex: none;
+            width: 100%;
+            height: auto;
+            padding: 2rem;
+          }
+          .project-title {
+            font-size: 2rem;
+          }
+          .portal-right {
+            display: none; /* Hide live preview on mobile, they can just click the links */
+          }
         }
       `}</style>
     </div>

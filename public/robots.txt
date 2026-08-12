@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://osamatech786.github.io/Nextjs_Templates/sitemap.xml
