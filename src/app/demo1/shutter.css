@@ -183,3 +183,13 @@ p {
   100% { transform: translate(-50%, 15px); opacity: 0; }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .section-wrapper,
+  .glass-card,
+  .scroll-indicator,
+  .wheel {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+

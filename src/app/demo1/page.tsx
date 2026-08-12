@@ -4,6 +4,10 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './shutter.css';
 
+const prefersReducedMotion = typeof window !== 'undefined'
+  ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  : false;
+
 const sections = [
   {
     id: 1,
@@ -35,15 +39,16 @@ export default function Demo1Page() {
 
   const navigateTo = useCallback((direction: 1 | -1) => {
     if (isScrollingRef.current) return;
-    
+
     setCurrentSection((prev) => {
       const next = prev + direction;
       if (next >= 0 && next < sections.length) {
         isScrollingRef.current = true;
-        // Lock scrolling for 1.2s to allow the full premium animation to complete
+        // Lock scrolling for 1.2s (or 0ms if reduced motion) to allow the full premium animation to complete
+        const lockDuration = prefersReducedMotion ? 0 : 1200;
         setTimeout(() => {
           isScrollingRef.current = false;
-        }, 1200);
+        }, lockDuration);
         return next;
       }
       return prev;
@@ -93,6 +98,7 @@ export default function Demo1Page() {
   }, [handleWheel, handleTouchStart, handleTouchMove, handleTouchEnd]);
 
   return (
+    <main>
     <div className="template-root">
       <div className="shutter-fixed-overlay">
         {sections.map((section, index) => {
@@ -132,13 +138,13 @@ export default function Demo1Page() {
                     ease: [0.16, 1, 0.3, 1]
                   }}
                 >
-                  <span 
-                    style={{ 
-                      color: section.color, 
-                      fontWeight: 600, 
-                      textTransform: 'uppercase', 
+                  <span
+                    style={{
+                      color: section.color,
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
                       letterSpacing: '0.2em',
-                      fontSize: '0.875rem',
+                      fontSize: '0.95rem',
                       marginBottom: '1rem',
                       display: 'block'
                     }}
@@ -149,7 +155,7 @@ export default function Demo1Page() {
                   <h2>{section.title}</h2>
                   <p>{section.description}</p>
                   
-                  <button className="btn-premium">
+                  <button className="btn-premium" aria-label="View premium offerings">
                     Explore More
                   </button>
                 </motion.div>
@@ -157,12 +163,14 @@ export default function Demo1Page() {
               
               {/* Scroll Indicator - Only show if not on the last section */}
               {index < sections.length - 1 && (
-                <motion.div 
+                <motion.div
                   className="scroll-indicator"
+                  role="status"
+                  aria-live="polite"
                   animate={{ opacity: isActive ? 0.8 : 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <span style={{ fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em' }}>SCROLL</span>
+                  <span style={{ fontSize: '0.875rem', fontWeight: 600, letterSpacing: '0.1em' }}>SCROLL</span>
                   <div className="mouse">
                     <div className="wheel"></div>
                   </div>
@@ -173,6 +181,7 @@ export default function Demo1Page() {
         })}
       </div>
     </div>
+    </main>
   );
 }
 

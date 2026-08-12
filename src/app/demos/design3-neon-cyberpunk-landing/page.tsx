@@ -623,22 +623,56 @@ export default function design3neoncyberpunklandingTemplate() {
                 font-size: 2rem;
             }
         }
+
+        /* Accessibility: Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .scanlines, .grid-floor, .particles, .hero-pulse, .btn::before, .btn::after {
+                animation: none !important;
+            }
+            .hero-cta {
+                animation: none !important;
+            }
+            .particle {
+                animation: none !important;
+            }
+        }
+
+        /* Skip to content link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #00ffff;
+            color: #0d0d1a;
+            padding: 8px 16px;
+            z-index: 9999;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
     ` }} />
       <div dangerouslySetInnerHTML={{ __html: `
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="scanlines"></div>
-    
-    <nav class="cyber-nav">
-        <div class="logo">CYBER</div>
+
+    <header>
+    <nav class="cyber-nav" aria-label="Main navigation">
+        <div class="logo" role="img" aria-label="Site logo">CYBER</div>
         <ul class="nav-links">
             <li><a href="#features" class="glitch">Features</a></li>
             <li><a href="#pricing" class="glitch">Pricing</a></li>
-            <li><a href="#" class="glitch">About</a></li>
-            <li><a href="#" class="glitch">Contact</a></li>
+            <li><a href="#" class="glitch" role="button" tabindex="0" aria-label="Navigate to About section">About</a></li>
+            <li><a href="#" class="glitch" role="button" tabindex="0" aria-label="Navigate to Contact section">Contact</a></li>
         </ul>
-        <button class="nav-cta">Launch App</button>
+        <button class="nav-cta" aria-label="Sign up or get started">Launch App</button>
     </nav>
+    </header>
 
-    <section class="hero">
+    <main id="main-content">
+    <section class="hero" aria-label="Hero">
         <div class="grid-floor"></div>
         <div class="particles">
             <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
@@ -658,43 +692,43 @@ export default function design3neoncyberpunklandingTemplate() {
         </div>
     </section>
 
-    <section class="features" id="features">
+    <section class="features" id="features" aria-label="Features">
         <h2 class="section-title">Our <span>Features</span></h2>
         <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
+            <div class="feature-card" aria-label="Lightning Fast feature">
+                <div class="feature-icon" aria-hidden="true">⚡</div>
                 <h3>Lightning Fast</h3>
                 <p>Built for speed with cutting-edge optimization techniques that deliver content at unprecedented speeds.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
+            <div class="feature-card" aria-label="Secure feature">
+                <div class="feature-icon" aria-hidden="true">🔒</div>
                 <h3>Secure</h3>
                 <p>Enterprise-grade security with end-to-end encryption and advanced threat protection systems.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎨</div>
+            <div class="feature-card" aria-label="Beautiful Design feature">
+                <div class="feature-icon" aria-hidden="true">🎨</div>
                 <h3>Beautiful Design</h3>
                 <p>Stunning interfaces crafted with precision and attention to every pixel detail.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🌐</div>
+            <div class="feature-card" aria-label="Global Scale feature">
+                <div class="feature-icon" aria-hidden="true">🌐</div>
                 <h3>Global Scale</h3>
                 <p>Deploy across the globe with our distributed infrastructure ensuring reliability everywhere.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🤖</div>
+            <div class="feature-card" aria-label="AI Powered feature">
+                <div class="feature-icon" aria-hidden="true">🤖</div>
                 <h3>AI Powered</h3>
                 <p>Leverage the power of artificial intelligence to automate and enhance your workflows.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
+            <div class="feature-card" aria-label="Analytics feature">
+                <div class="feature-icon" aria-hidden="true">📊</div>
                 <h3>Analytics</h3>
                 <p>Real-time insights and comprehensive analytics to make data-driven decisions.</p>
             </div>
         </div>
     </section>
 
-    <section class="pricing" id="pricing">
+    <section class="pricing" id="pricing" aria-label="Pricing">
         <h2 class="section-title">Choose Your <span>Plan</span></h2>
         <div class="pricing-grid">
             <div class="pricing-card">
@@ -706,7 +740,7 @@ export default function design3neoncyberpunklandingTemplate() {
                     <li>Basic Analytics</li>
                     <li>Email Support</li>
                 </ul>
-                <button class="pricing-cta">Select Plan</button>
+                <button class="pricing-cta" aria-label="Select Basic plan">Select Plan</button>
             </div>
             <div class="pricing-card featured">
                 <h3>Pro</h3>
@@ -718,7 +752,7 @@ export default function design3neoncyberpunklandingTemplate() {
                     <li>Priority Support</li>
                     <li>AI Features</li>
                 </ul>
-                <button class="pricing-cta">Select Plan</button>
+                <button class="pricing-cta" aria-label="Select Pro plan">Select Plan</button>
             </div>
             <div class="pricing-card">
                 <h3>Enterprise</h3>
@@ -730,18 +764,19 @@ export default function design3neoncyberpunklandingTemplate() {
                     <li>Dedicated Manager</li>
                     <li>SLA Guarantee</li>
                 </ul>
-                <button class="pricing-cta">Contact Us</button>
+                <button class="pricing-cta" aria-label="Select Enterprise plan">Contact Us</button>
             </div>
         </div>
     </section>
 
-    <section class="cta-banner">
+    <section class="cta-banner" aria-label="Call to action">
         <h2>Ready to <span style="color: #ff00ff;">transform</span> your future?</h2>
         <p>Join thousands of innovators already building with us</p>
         <a href="#" class="hero-cta">Start Now</a>
     </section>
+    </main>
 
-    <footer class="footer">
+    <footer class="footer" aria-label="Site footer">
         <div class="footer-content">
             <div class="footer-logo">CYBER</div>
             <div class="footer-links">

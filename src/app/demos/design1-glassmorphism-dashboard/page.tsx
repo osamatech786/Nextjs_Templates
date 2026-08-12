@@ -18,6 +18,8 @@ export default function EnterpriseHrDashboard() {
         <title>HR Platform - Enterprise Glassmorphism</title>
       </Head>
 
+      <a href="#main-content" className="skip-to-content">Skip to content</a>
+
       <div className="hr-dashboard">
         <div className="bg-shapes">
           <div className="shape shape-1" />
@@ -30,9 +32,9 @@ export default function EnterpriseHrDashboard() {
           <aside className="glass-panel sidebar">
             <div className="brand">AcmeHR</div>
             <nav className="side-menu">
-              <a href="#" className="menu-item active"><Users size={18} /> Directory</a>
-              <a href="#" className="menu-item"><Briefcase size={18} /> Recruitment</a>
-              <a href="#" className="menu-item"><Calendar size={18} /> Time Off</a>
+              <button type="button" className="menu-item active" aria-label="Directory"><Users size={18} /> Directory</button>
+              <button type="button" className="menu-item" aria-label="Recruitment"><Briefcase size={18} /> Recruitment</button>
+              <button type="button" className="menu-item" aria-label="Time Off"><Calendar size={18} /> Time Off</button>
             </nav>
             <div className="storage-widget">
               <div className="widget-title">Company Storage</div>
@@ -42,15 +44,15 @@ export default function EnterpriseHrDashboard() {
           </aside>
 
           {/* Main Content */}
-          <main className="main-content">
+          <main id="main-content" className="main-content">
             {/* Header */}
             <header className="glass-panel header">
               <div className="search-box">
                 <Search size={18} className="text-gray-400" />
-                <input type="text" placeholder="Search employees, roles, or departments..." />
+                <input type="text" placeholder="Search employees, roles, or departments..." aria-label="Search employees" />
               </div>
               <div className="header-actions">
-                <button className="icon-btn"><Bell size={18} /></button>
+                <button className="icon-btn" aria-label="Notifications"><Bell size={18} /></button>
                 <div className="profile-btn">
                   <div className="avatar">HR</div>
                   <span>Admin Portal</span>
@@ -90,7 +92,7 @@ export default function EnterpriseHrDashboard() {
                           <span className={`status-dot ${emp.status === 'Active' ? 'active' : 'leave'}`} />
                           {emp.status}
                         </td>
-                        <td><button className="icon-btn"><MoreVertical size={16} /></button></td>
+                        <td><button className="icon-btn" aria-label="More actions"><MoreVertical size={16} /></button></td>
                       </tr>
                     ))}
                   </tbody>
@@ -106,14 +108,14 @@ export default function EnterpriseHrDashboard() {
                         <strong>PTO Request</strong>
                         <span>Michael Chang (3 days)</span>
                       </div>
-                      <button className="action-btn">Review</button>
+                      <button className="action-btn" aria-label="Review PTO Request for Michael Chang">Review</button>
                     </div>
                     <div className="approval-item">
                       <div className="app-info">
                         <strong>Expense Report</strong>
                         <span>David Kim ($120)</span>
                       </div>
-                      <button className="action-btn">Review</button>
+                      <button className="action-btn" aria-label="Review Expense Report for David Kim">Review</button>
                     </div>
                   </div>
                 </div>
@@ -156,6 +158,23 @@ export default function EnterpriseHrDashboard() {
             display: flex;
             align-items: center;
             justify-content: center;
+          }
+
+          .skip-to-content {
+            position: absolute;
+            top: -100%;
+            left: 1rem;
+            background: #4f46e5;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            z-index: 9999;
+            transition: top 0.2s;
+          }
+          .skip-to-content:focus {
+            top: 1rem;
           }
 
           /* Abstract Background Shapes */
@@ -238,6 +257,12 @@ export default function EnterpriseHrDashboard() {
             text-decoration: none;
             font-weight: 500;
             transition: all 0.2s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            text-align: left;
+            width: 100%;
           }
           .menu-item:hover {
             background: rgba(255, 255, 255, 0.5);
@@ -247,6 +272,10 @@ export default function EnterpriseHrDashboard() {
             background: #ffffff;
             color: #4f46e5;
             box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+          }
+          .menu-item:focus-visible {
+            outline: 2px solid #4f46e5;
+            outline-offset: 2px;
           }
 
           .storage-widget {
@@ -273,7 +302,7 @@ export default function EnterpriseHrDashboard() {
             border-radius: 10px;
           }
           .widget-desc {
-            font-size: 0.75rem;
+            font-size: 0.875rem;
             color: #64748b;
           }
 
@@ -308,7 +337,7 @@ export default function EnterpriseHrDashboard() {
             border: none;
             outline: none;
             width: 100%;
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-family: inherit;
           }
           .header-actions {
@@ -319,8 +348,8 @@ export default function EnterpriseHrDashboard() {
           .icon-btn {
             background: rgba(255, 255, 255, 0.5);
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -332,6 +361,11 @@ export default function EnterpriseHrDashboard() {
           .icon-btn:hover {
             background: #ffffff;
             color: #0f172a;
+          }
+          .icon-btn:focus-visible,
+          .primary-btn:focus-visible {
+            outline: 2px solid #4f46e5;
+            outline-offset: 2px;
           }
           .profile-btn {
             display: flex;
@@ -401,6 +435,13 @@ export default function EnterpriseHrDashboard() {
           .primary-btn:hover {
             background: #4338ca;
             transform: translateY(-1px);
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .primary-btn:hover,
+            .icon-btn:hover {
+              transform: none;
+            }
           }
 
           .glass-table {

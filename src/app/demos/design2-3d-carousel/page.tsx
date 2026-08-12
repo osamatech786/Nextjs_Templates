@@ -87,6 +87,9 @@ export default function design23dcarouselTemplate() {
       targetRotationX = -(mouseY / centerY) * 15;
     });
 
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return;
+
     function animate() {
       // Handle base rotation
       if (!isDragging) {
@@ -150,6 +153,24 @@ export default function design23dcarouselTemplate() {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: -100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #00f0ff;
+      color: #0a0a0f;
+      padding: 0.5rem 1rem;
+      border-radius: 0 0 8px 8px;
+      z-index: 100;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      top: 0;
     }
 
     body {
@@ -533,7 +554,7 @@ export default function design23dcarouselTemplate() {
       left: 50%;
       transform: translateX(-50%);
       color: rgba(255, 255, 255, 0.5);
-      font-size: 13px;
+      font-size: 0.875rem;
       z-index: 10;
     }
 
@@ -548,42 +569,50 @@ export default function design23dcarouselTemplate() {
       .carousel-container {
         width: 240px;
         height: 320px;
+        max-width: 90vw;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .carousel {
+        animation: none;
       }
     }
   ` }} />
       <div dangerouslySetInnerHTML={{ __html: `
+  <a href="#carousel" class="skip-link">Skip to carousel</a>
   <div class="scene">
     <div class="carousel-container">
-      <div class="carousel" id="carousel">
-        <div class="card" data-index="0">
+      <div class="carousel" id="carousel" aria-label="Carousel">
+        <div class="card" data-index="0" role="button" tabindex="0" aria-label="Card 1 of 8">
           <div class="geo-layer"></div>
           <div class="card-glow" style="background: linear-gradient(135deg, #00f0ff, #ff00aa);"></div>
         </div>
-        <div class="card" data-index="1">
+        <div class="card" data-index="1" role="button" tabindex="0" aria-label="Card 2 of 8">
           <div class="geo-layer"></div>
           <div class="card-glow" style="background: linear-gradient(135deg, #39ff14, #00f0ff);"></div>
         </div>
-        <div class="card" data-index="2">
+        <div class="card" data-index="2" role="button" tabindex="0" aria-label="Card 3 of 8">
           <div class="geo-layer"></div>
           <div class="card-glow" style="background: linear-gradient(135deg, #ff00aa, #f59e0b);"></div>
         </div>
-        <div class="card" data-index="3">
+        <div class="card" data-index="3" role="button" tabindex="0" aria-label="Card 4 of 8">
           <div class="geo-layer"></div>
           <div class="card-glow" style="background: linear-gradient(135deg, #a855f7, #06b6d4);"></div>
         </div>
-        <div class="card" data-index="4">
+        <div class="card" data-index="4" role="button" tabindex="0" aria-label="Card 5 of 8">
           <div class="geo-layer"></div>
           <div class="card-glow" style="background: linear-gradient(135deg, #10b981, #a855f7);"></div>
         </div>
-        <div class="card" data-index="5">
+        <div class="card" data-index="5" role="button" tabindex="0" aria-label="Card 6 of 8">
           <div class="geo-layer"></div>
           <div class="card-glow" style="background: linear-gradient(135deg, #f59e0b, #ec4899);"></div>
         </div>
-        <div class="card" data-index="6">
+        <div class="card" data-index="6" role="button" tabindex="0" aria-label="Card 7 of 8">
           <div class="geo-layer"></div>
           <div class="card-glow" style="background: linear-gradient(135deg, #6366f1, #ec4899);"></div>
         </div>
-        <div class="card" data-index="7">
+        <div class="card" data-index="7" role="button" tabindex="0" aria-label="Card 8 of 8">
           <div class="geo-layer"></div>
           <div class="card-glow" style="background: linear-gradient(135deg, #14b8a6, #f97316);"></div>
         </div>

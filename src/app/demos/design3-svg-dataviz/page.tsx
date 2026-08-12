@@ -138,12 +138,46 @@ export default function design3svgdatavizTemplate() {
       box-sizing: border-box;
     }
 
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #00f5ff;
+      color: #0a0a0f;
+      padding: 8px 16px;
+      z-index: 1000;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0 0 4px 0;
+      transition: top 0.2s ease;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
     body {
       font-family: 'JetBrains Mono', monospace;
       background: #0a0a0f;
       min-height: 100vh;
       padding: 40px;
       color: #fff;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ring-progress {
+        transition: none;
+      }
+      .chart-line-animated {
+        animation: none;
+        stroke-dashoffset: 0;
+      }
+      .bar {
+        transition: none;
+      }
+      .bar.animate {
+        transform: scaleY(1);
+      }
     }
 
     .dashboard {
@@ -479,7 +513,7 @@ export default function design3svgdatavizTemplate() {
 
     @media (max-width: 640px) {
       body {
-        padding: 20px;
+        padding: 16px;
       }
       .dashboard {
         grid-template-columns: 1fr;
@@ -489,14 +523,16 @@ export default function design3svgdatavizTemplate() {
       }
     }
   ` }} />
-      <div dangerouslySetInnerHTML={{ __html: `
+      <a href="#main-content" class="skip-link">Skip to main content</a>
+  <main id="main-content">
+    <div dangerouslySetInnerHTML={{ __html: `
   <div class="dashboard">
     <!-- Radial Rings -->
-    <div class="card card-rings">
-      <h3 class="card-title">Revenue Split</h3>
-      <div class="rings-container">
+    <article class="card card-rings" aria-labelledby="rings-title">
+      <h3 class="card-title" id="rings-title">Revenue Split</h3>
+      <div class="rings-container" role="img" aria-label="Ring chart: Products 75%, Services 42%, Subscriptions 28%">
         <div class="ring-wrapper ring-1">
-          <svg width="180" height="180" viewBox="0 0 180 180">
+          <svg width="180" height="180" viewBox="0 0 180 180" role="img" aria-label="Products ring chart: 75%">
             <defs>
               <linearGradient id="gradient-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stop-color="#00f5ff"/>
@@ -514,7 +550,7 @@ export default function design3svgdatavizTemplate() {
         </div>
 
         <div class="ring-wrapper ring-2">
-          <svg width="180" height="180" viewBox="0 0 180 180">
+          <svg width="180" height="180" viewBox="0 0 180 180" role="img" aria-label="Services ring chart: 42%">
             <defs>
               <linearGradient id="gradient-magenta" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stop-color="#ff00aa"/>
@@ -532,7 +568,7 @@ export default function design3svgdatavizTemplate() {
         </div>
 
         <div class="ring-wrapper ring-3">
-          <svg width="180" height="180" viewBox="0 0 180 180">
+          <svg width="180" height="180" viewBox="0 0 180 180" role="img" aria-label="Subscriptions ring chart: 28%">
             <defs>
               <linearGradient id="gradient-lime" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stop-color="#39ff14"/>
@@ -549,13 +585,13 @@ export default function design3svgdatavizTemplate() {
           </div>
         </div>
       </div>
-    </div>
+    </article>
 
     <!-- Line Chart -->
-    <div class="card card-line">
-      <h3 class="card-title">Performance Trend</h3>
+    <article class="card card-line" aria-labelledby="line-title">
+      <h3 class="card-title" id="line-title">Performance Trend</h3>
       <div class="line-chart-container">
-        <svg class="line-chart-svg" viewBox="0 0 400 220">
+        <svg class="line-chart-svg" viewBox="0 0 400 220" role="img" aria-label="Line chart: Performance trend from Jan 2.4k to Aug 8.9k, showing growth over time">
           <defs>
             <linearGradient id="gradient-cyan-magenta" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stop-color="#00f5ff"/>
@@ -584,14 +620,14 @@ export default function design3svgdatavizTemplate() {
 
           <!-- Data Points -->
           <g class="data-points">
-            <circle class="data-point" cx="40" cy="180" r="5" data-value="2.4k" data-label="Jan"/>
-            <circle class="data-point" cx="80" cy="140" r="5" data-value="3.8k" data-label="Feb"/>
-            <circle class="data-point" cx="130" cy="160" r="5" data-value="3.1k" data-label="Mar"/>
-            <circle class="data-point" cx="180" cy="100" r="5" data-value="5.2k" data-label="Apr"/>
-            <circle class="data-point" cx="230" cy="120" r="5" data-value="4.5k" data-label="May"/>
-            <circle class="data-point" cx="280" cy="70" r="5" data-value="6.8k" data-label="Jun"/>
-            <circle class="data-point" cx="330" cy="85" r="5" data-value="6.1k" data-label="Jul"/>
-            <circle class="data-point" cx="380" cy="40" r="5" data-value="8.9k" data-label="Aug"/>
+            <circle class="data-point" cx="40" cy="180" r="5" data-value="2.4k" data-label="Jan" tabindex="0" aria-label="Data point Jan: 2.4k"/>
+            <circle class="data-point" cx="80" cy="140" r="5" data-value="3.8k" data-label="Feb" tabindex="0" aria-label="Data point Feb: 3.8k"/>
+            <circle class="data-point" cx="130" cy="160" r="5" data-value="3.1k" data-label="Mar" tabindex="0" aria-label="Data point Mar: 3.1k"/>
+            <circle class="data-point" cx="180" cy="100" r="5" data-value="5.2k" data-label="Apr" tabindex="0" aria-label="Data point Apr: 5.2k"/>
+            <circle class="data-point" cx="230" cy="120" r="5" data-value="4.5k" data-label="May" tabindex="0" aria-label="Data point May: 4.5k"/>
+            <circle class="data-point" cx="280" cy="70" r="5" data-value="6.8k" data-label="Jun" tabindex="0" aria-label="Data point Jun: 6.8k"/>
+            <circle class="data-point" cx="330" cy="85" r="5" data-value="6.1k" data-label="Jul" tabindex="0" aria-label="Data point Jul: 6.1k"/>
+            <circle class="data-point" cx="380" cy="40" r="5" data-value="8.9k" data-label="Aug" tabindex="0" aria-label="Data point Aug: 8.9k"/>
           </g>
         </svg>
 
@@ -600,12 +636,12 @@ export default function design3svgdatavizTemplate() {
           <div class="tooltip-label">Value</div>
         </div>
       </div>
-    </div>
+    </article>
 
     <!-- Bar Chart -->
-    <div class="card card-bar">
-      <h3 class="card-title">Category Distribution</h3>
-      <div class="bar-chart-container" id="barChart">
+    <article class="card card-bar" aria-labelledby="bar-title">
+      <h3 class="card-title" id="bar-title">Category Distribution</h3>
+      <div class="bar-chart-container" id="barChart" role="img" aria-label="Bar chart: Electronics 85%, Clothing 65%, Home 45%, Sports 75%, Books 55%, Tech 90%">
         <div class="bar-wrapper">
           <div class="bar bar-1" data-height="85" style="height: 180px;">
             <span class="bar-value">85%</span>
@@ -643,7 +679,7 @@ export default function design3svgdatavizTemplate() {
           <span class="bar-label">Tech</span>
         </div>
       </div>
-    </div>
+    </article>
 
     <!-- Stats -->
     <div class="card card-stats">
@@ -669,8 +705,9 @@ export default function design3svgdatavizTemplate() {
     </div>
   </div>
 
-  
+
 ` }} />
+  </main>
     </>
   );
 }

@@ -84,17 +84,34 @@ export default function design4organicfluidanimationTemplate() {
                     opacity: 0;
                 }
             }
+
+            @media (prefers-reduced-motion: reduce) {
+                .hero-cta,
+                .cta-button {
+                    animation: none !important;
+                }
+                .hero-cta,
+                .cta-button,
+                .feature-card,
+                .testimonial-card,
+                .gallery-item {
+                    transition: none !important;
+                }
+            }
         `;
         document.head.appendChild(style);
 
         // Parallax effect on scroll
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            document.querySelectorAll('.blob').forEach((blob, index) => {
-                const speed = 0.1 + (index * 0.05);
-                blob.style.transform = `translateY(${scrolled * speed}px)`;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!prefersReducedMotion) {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                document.querySelectorAll('.blob').forEach((blob, index) => {
+                    const speed = 0.1 + (index * 0.05);
+                    blob.style.transform = `translateY(${scrolled * speed}px)`;
+                });
             });
-        });
+        }
     
     } catch(e) {
       console.error("Error running template script:", e);
@@ -121,6 +138,23 @@ export default function design4organicfluidanimationTemplate() {
             min-height: 100vh;
             overflow-x: hidden;
             color: #333;
+        }
+
+        /* Skip to content link */
+        .skip-to-content {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #ff6b6b;
+            color: white;
+            padding: 8px 16px;
+            z-index: 1000;
+            text-decoration: none;
+            border-radius: 0 0 4px 0;
+            font-weight: 600;
+        }
+        .skip-to-content:focus {
+            top: 0;
         }
 
         /* Hero Section */
@@ -152,6 +186,19 @@ export default function design4organicfluidanimationTemplate() {
             filter: blur(40px);
             opacity: 0.8;
             animation: float 8s ease-in-out infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .blob,
+            .interactive-blob {
+                animation: none !important;
+            }
+            .wave-divider svg {
+                animation: none !important;
+            }
+            .blob {
+                transform: none !important;
+            }
         }
 
         .blob-1 {
@@ -638,8 +685,10 @@ export default function design4organicfluidanimationTemplate() {
         }
     ` }} />
       <div dangerouslySetInnerHTML={{ __html: `
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
     <div class="interactive-blob" id="interactiveBlob"></div>
 
+    <header>
     <section class="hero">
         <div class="blob-container">
             <div class="blob blob-1"></div>
@@ -658,101 +707,104 @@ export default function design4organicfluidanimationTemplate() {
             </svg>
         </div>
     </section>
+    </header>
 
-    <section class="features">
+    <main id="main-content">
+    <section class="features" aria-label="Features">
         <h2 class="section-title">Why Choose <span>Us</span></h2>
         <div class="features-grid">
-            <div class="feature-card">
+            <article class="feature-card">
                 <div class="feature-icon">🌊</div>
                 <h3>Fluid Design</h3>
                 <p>Smooth, organic animations that flow naturally like water, creating an immersive experience.</p>
-            </div>
-            <div class="feature-card">
+            </article>
+            <article class="feature-card">
                 <div class="feature-icon">✨</div>
                 <h3>Pure Beauty</h3>
                 <p>Every element crafted with care, creating harmony between form and function.</p>
-            </div>
-            <div class="feature-card">
+            </article>
+            <article class="feature-card">
                 <div class="feature-icon">🚀</div>
                 <h3>Lightning Fast</h3>
                 <p>Optimized performance that keeps your experience smooth and seamless.</p>
-            </div>
+            </article>
         </div>
     </section>
 
-    <section class="testimonials">
+    <section class="testimonials" aria-label="Testimonials">
         <h2 class="section-title">What They <span>Say</span></h2>
         <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop" alt="Sarah" class="testimonial-avatar">
-                <p class="testimonial-text">"Absolutely stunning design! The organic feel brings a whole new dimension to web experiences."</p>
+            <article class="testimonial-card">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop" alt="Sarah, customer testimonial" class="testimonial-avatar">
+                <blockquote class="testimonial-text">"Absolutely stunning design! The organic feel brings a whole new dimension to web experiences."</blockquote>
                 <h4 class="testimonial-name">Sarah Johnson</h4>
                 <p class="testimonial-role">Creative Director</p>
-            </div>
-            <div class="testimonial-card">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop" alt="Michael" class="testimonial-avatar">
-                <p class="testimonial-text">"The fluidity and attention to detail is remarkable. Truly a masterpiece of design."</p>
+            </article>
+            <article class="testimonial-card">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop" alt="Michael, customer testimonial" class="testimonial-avatar">
+                <blockquote class="testimonial-text">"The fluidity and attention to detail is remarkable. Truly a masterpiece of design."</blockquote>
                 <h4 class="testimonial-name">Michael Chen</h4>
                 <p class="testimonial-role">Product Designer</p>
-            </div>
-            <div class="testimonial-card">
-                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop" alt="Emma" class="testimonial-avatar">
-                <p class="testimonial-text">"Every interaction feels natural and intuitive. The attention to organic design is unmatched."</p>
+            </article>
+            <article class="testimonial-card">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop" alt="Emma, customer testimonial" class="testimonial-avatar">
+                <blockquote class="testimonial-text">"Every interaction feels natural and intuitive. The attention to organic design is unmatched."</blockquote>
                 <h4 class="testimonial-name">Emma Williams</h4>
                 <p class="testimonial-role">UX Researcher</p>
-            </div>
+            </article>
         </div>
     </section>
 
-    <section class="gallery">
+    <section class="gallery" aria-label="Gallery">
         <h2 class="section-title">Our <span>Gallery</span></h2>
         <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1557683316-973673baf926?w=400&h=400&fit=crop" alt="Gallery 1">
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=400&h=400&fit=crop" alt="Gallery 2">
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=400&h=400&fit=crop" alt="Gallery 3">
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1551163943-3f6a6d5f3d31?w=400&h=400&fit=crop" alt="Gallery 4">
-            </div>
+            <figure class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1557683316-973673baf926?w=400&h=400&fit=crop" alt="Abstract purple and pink gradient art">
+            </figure>
+            <figure class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=400&h=400&fit=crop" alt="Colorful fluid paint art">
+            </figure>
+            <figure class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=400&h=400&fit=crop" alt="Pink fluid abstract art">
+            </figure>
+            <figure class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1551163943-3f6a6d5f3d31?w=400&h=400&fit=crop" alt="Blue organic fluid pattern">
+            </figure>
         </div>
     </section>
 
-    <section class="cta">
+    <section class="cta" aria-label="Call to action">
         <h2>Ready to Experience Organic Design?</h2>
         <p>Join thousands of satisfied customers who have embraced the natural revolution.</p>
         <a href="#" class="cta-button">Get Started</a>
     </section>
+    </main>
 
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
                 <h4>Company</h4>
-                <a href="#">About</a>
-                <a href="#">Careers</a>
-                <a href="#">Press</a>
+                <a href="#" aria-label="Visit our About page">About</a>
+                <a href="#" aria-label="Visit our Careers page">Careers</a>
+                <a href="#" aria-label="Visit our Press page">Press</a>
             </div>
             <div class="footer-section">
                 <h4>Products</h4>
-                <a href="#">Features</a>
-                <a href="#">Pricing</a>
-                <a href="#">Solutions</a>
+                <a href="#" aria-label="Visit our Features page">Features</a>
+                <a href="#" aria-label="Visit our Pricing page">Pricing</a>
+                <a href="#" aria-label="Visit our Solutions page">Solutions</a>
             </div>
             <div class="footer-section">
                 <h4>Resources</h4>
-                <a href="#">Blog</a>
-                <a href="#">Tutorials</a>
-                <a href="#">Help Center</a>
+                <a href="#" aria-label="Visit our Blog page">Blog</a>
+                <a href="#" aria-label="Visit our Tutorials page">Tutorials</a>
+                <a href="#" aria-label="Visit our Help Center page">Help Center</a>
             </div>
             <div class="footer-section">
                 <h4>Connect</h4>
-                <a href="#">Twitter</a>
-                <a href="#">LinkedIn</a>
-                <a href="#">Instagram</a>
+                <a href="#" aria-label="Visit our Twitter page">Twitter</a>
+                <a href="#" aria-label="Visit our LinkedIn page">LinkedIn</a>
+                <a href="#" aria-label="Visit our Instagram page">Instagram</a>
             </div>
         </div>
         <div class="footer-bottom">

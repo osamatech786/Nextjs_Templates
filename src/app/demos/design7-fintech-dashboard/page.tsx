@@ -23,18 +23,19 @@ export default function CorporateExpenseDashboard() {
       </Head>
 
       <div className="dashboard-container">
+        <a href="#main-content" className="skip-to-content">Skip to main content</a>
         {/* Sidebar */}
         <aside className="sidebar">
-          <div className="brand">
+          <div className="brand" role="img" aria-label="NovaSpend logo">
             <div className="logo-icon" /> NovaSpend
           </div>
           
           <nav className="side-nav">
             <div className="nav-group">Main Menu</div>
-            <a href="#" className="nav-item active"><Activity size={18} /> Overview</a>
-            <a href="#" className="nav-item"><Wallet size={18} /> Wallets</a>
-            <a href="#" className="nav-item"><CreditCard size={18} /> Cards</a>
-            <a href="#" className="nav-item"><ArrowUpRight size={18} /> Transfers</a>
+            <a href="#" className="nav-item active" aria-label="Navigate to Overview"><Activity size={18} /> Overview</a>
+            <a href="#" className="nav-item" aria-label="Navigate to Wallets"><Wallet size={18} /> Wallets</a>
+            <a href="#" className="nav-item" aria-label="Navigate to Cards"><CreditCard size={18} /> Cards</a>
+            <a href="#" className="nav-item" aria-label="Navigate to Transfers"><ArrowUpRight size={18} /> Transfers</a>
           </nav>
           
           <div className="sidebar-bottom">
@@ -44,16 +45,16 @@ export default function CorporateExpenseDashboard() {
         </aside>
 
         {/* Main Content */}
-        <main className="main-content">
+        <main className="main-content" id="main-content">
           
           {/* Top Header */}
           <header className="topbar">
             <div className="search-bar">
               <Search size={18} className="search-icon" />
-              <input type="text" placeholder="Search transactions, cards, or contacts..." />
+              <input type="text" placeholder="Search transactions, cards, or contacts..." aria-label="Search transactions" />
             </div>
             <div className="topbar-actions">
-              <button className="icon-btn relative">
+              <button className="icon-btn relative" aria-label="Notifications">
                 <Bell size={20} />
                 <span className="badge-dot" />
               </button>
@@ -81,7 +82,7 @@ export default function CorporateExpenseDashboard() {
                 
                 {/* SVG Sparkline */}
                 <div className="sparkline">
-                  <svg viewBox="0 0 200 50" preserveAspectRatio="none">
+                  <svg viewBox="0 0 200 50" preserveAspectRatio="none" role="img" aria-label="Spending trend last 7 days">
                     <path d="M0,40 C20,30 40,50 60,20 C80,-10 100,40 120,30 C140,20 160,10 200,0" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2" />
                     <path d="M0,40 C20,30 40,50 60,20 C80,-10 100,40 120,30 C140,20 160,10 200,0 L200,50 L0,50 Z" fill="url(#gradient)" stroke="none" />
                     <defs>
@@ -123,18 +124,18 @@ export default function CorporateExpenseDashboard() {
             <motion.div className="data-section" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
               <div className="section-header">
                 <h2>Recent Transactions</h2>
-                <button className="view-all-btn">View All</button>
+                <button className="view-all-btn" aria-label="View all transactions">View All</button>
               </div>
               
               <div className="table-container">
                 <table className="data-table">
                   <thead>
                     <tr>
-                      <th>Transaction</th>
-                      <th>Category</th>
-                      <th>Date</th>
-                      <th>Status</th>
-                      <th className="text-right">Amount</th>
+                      <th scope="col">Transaction</th>
+                      <th scope="col">Category</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Status</th>
+                      <th scope="col" className="text-right">Amount</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -165,6 +166,45 @@ export default function CorporateExpenseDashboard() {
 
         <style jsx global>{`
           @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+          /* Skip to content link for accessibility */
+          .skip-to-content {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+          }
+          .skip-to-content:focus {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: auto;
+            height: auto;
+            padding: 8px 16px;
+            margin: 0;
+            overflow: visible;
+            clip: auto;
+            white-space: normal;
+            background: #2563eb;
+            color: white;
+            z-index: 10000;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 0 0 8px 0;
+          }
+
+          /* Respect reduced motion preferences */
+          @media (prefers-reduced-motion: reduce) {
+            .metric-card {
+              animation: none !important;
+              transition: none !important;
+            }
+          }
 
           body {
             margin: 0;
@@ -427,7 +467,8 @@ export default function CorporateExpenseDashboard() {
 
           .cards-preview {
             display: flex;
-            gap: -10px;
+            gap: 0;
+            margin-left: -10px;
           }
           .mini-card {
             width: 100%;

@@ -52,7 +52,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="portal-container">
+    <div className="portal-container" id="main-content">
+      <a href="#main-content" className="skip-to-content">Skip to main content</a>
       {/* Ambient Mouse Glow */}
       <div 
         className="ambient-glow"
@@ -89,10 +90,14 @@ export default function Home() {
             {templates.map((template, index) => {
               const isActive = activeTemplate.id === template.id;
               return (
-                <div 
+                <div
                   key={template.id}
                   className={`project-item ${isActive ? "active" : ""}`}
                   onMouseEnter={() => setActiveTemplate(template)}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Open ${template.name}`}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveTemplate(template); } }}
                 >
                   <span className="project-number">{(index + 1).toString().padStart(2, '0')}</span>
                   <div className="project-content">
@@ -109,7 +114,7 @@ export default function Home() {
           </nav>
           
           <div className="portal-footer" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <p style={{ color: '#888', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Let's build something amazing</p>
+            <p style={{ color: '#cbd5e1', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Let's build something amazing</p>
             <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
               <a href="https://calendly.com/osamatech786-jdqf/20min" target="_blank" rel="noopener noreferrer" className="hire-btn">
                 Book a Call <ArrowUpRight className="icon" />
@@ -134,9 +139,9 @@ export default function Home() {
           >
             <div className="iframe-header">
               <div className="window-controls">
-                <span className="control close"></span>
-                <span className="control min"></span>
-                <span className="control max"></span>
+                <span className="control close" role="button" tabIndex={0} aria-label="Close"></span>
+                <span className="control min" role="button" tabIndex={0} aria-label="Minimize"></span>
+                <span className="control max" role="button" tabIndex={0} aria-label="Maximize"></span>
               </div>
               <div className="url-bar">{displayUrl}{activeTemplate.href}</div>
             </div>
@@ -161,7 +166,7 @@ export default function Home() {
             </AnimatePresence>
           </div>
         </div>
-        
+
       </div>
 
       <style jsx global>{`
@@ -463,6 +468,42 @@ export default function Home() {
           .portal-right {
             display: none; /* Hide live preview on mobile, they can just click the links */
           }
+        }
+
+        /* Reduced motion: hide custom cursor and glow */
+        @media (prefers-reduced-motion: reduce) {
+          .custom-cursor, .cursor-glow { display: none; }
+        }
+
+        /* Skip to content link */
+        .skip-to-content {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border-width: 0;
+        }
+        .skip-to-content:focus {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: auto;
+          height: auto;
+          padding: 0.75rem 1.5rem;
+          margin: 0;
+          overflow: visible;
+          clip: auto;
+          white-space: normal;
+          background: #6366f1;
+          color: #fff;
+          z-index: 10000;
+          text-decoration: none;
+          font-weight: 600;
+          border-radius: 0 0 8px 0;
         }
       `}</style>
     </div>

@@ -68,6 +68,12 @@ export default function design1immersive3dportfolioTemplate() {
             animation: slideUp 1s ease-out 0.5s forwards;
         }
 
+        @media (prefers-reduced-motion: reduce) {
+            .glass-panel { animation: none !important; }
+            .mouse-icon { display: none; }
+            #canvas-container { display: none; }
+        }
+
         @keyframes slideUp {
             to {
                 transform: translateY(0);
@@ -76,7 +82,7 @@ export default function design1immersive3dportfolioTemplate() {
         }
 
         .tagline {
-            font-size: 0.875rem;
+            font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 4px;
             color: #00d4ff;
@@ -161,7 +167,7 @@ export default function design1immersive3dportfolioTemplate() {
         }
 
         .scroll-indicator span {
-            font-size: 0.75rem;
+            font-size: 0.875rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: rgba(255, 255, 255, 0.5);
@@ -243,14 +249,15 @@ export default function design1immersive3dportfolioTemplate() {
     <div class="gradient-lighting gradient-2" id="grad2"></div>
     <div class="gradient-lighting gradient-3" id="grad3"></div>
     
+    <a href="#main-content" style="position:absolute;top:-999px;left:-999px;z-index:9999;padding:1rem;background:#00d4ff;color:#0a0a0f;font-weight:600;text-decoration:none;border-radius:8px;">Skip to main content</a>
     <div id="canvas-container"></div>
 
     <div class="hero-content">
-        <div class="glass-panel">
+        <div class="glass-panel" id="main-content">
             <p class="tagline">Creative Developer & Designer</p>
             <h1>Crafting Digital Experiences That Inspire</h1>
             <p class="subtitle">I transform bold ideas into immersive digital realities where creativity meets cutting-edge technology.</p>
-            <button class="cta-button">
+            <button class="cta-button" aria-label="Explore my work portfolio">
                 Explore My Work
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -259,7 +266,7 @@ export default function design1immersive3dportfolioTemplate() {
         </div>
     </div>
 
-    <div class="scroll-indicator">
+    <div class="scroll-indicator" role="status" aria-live="polite">
         <span>Scroll</span>
         <div class="mouse-icon"></div>
     </div>

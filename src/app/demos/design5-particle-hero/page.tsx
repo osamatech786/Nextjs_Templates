@@ -211,6 +211,9 @@ export default function design5particleheroTemplate() {
       }
 
       animate(lastTime = 0) {
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reducedMotion) return;
+
         const currentTime = performance.now();
         const deltaTime = currentTime - lastTime;
 
@@ -402,10 +405,33 @@ export default function design5particleheroTemplate() {
         padding: 0 20px;
       }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-indicator, .hero-content { animation: none !important; }
+      canvas { display: none; }
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #00f5ff;
+      color: #0a0a1a;
+      padding: 8px 16px;
+      z-index: 100;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0 0 4px 0;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
   ` }} />
       <div dangerouslySetInnerHTML={{ __html: `
+  <a href="#main-content" class="skip-link">Skip to content</a>
+  <main id="main-content">
   <div class="hero-container">
-    <canvas id="particleCanvas"></canvas>
+    <canvas id="particleCanvas" aria-label="Animated particle background, decorative" role="presentation"></canvas>
     <div class="gradient-overlay"></div>
     <div class="text-overlay">
       <h1 class="hero-title">
@@ -413,15 +439,15 @@ export default function design5particleheroTemplate() {
         <span>Universe</span>
       </h1>
       <p class="hero-subtitle">Interactive canvas particle system</p>
-      <button class="cta-button">Explore Now</button>
+      <button class="cta-button" aria-label="Explore our products">Explore Now</button>
     </div>
-    <div class="scroll-indicator">
+    <div class="scroll-indicator" role="status" aria-live="polite">
       <span>Scroll</span>
       <div class="scroll-line"></div>
     </div>
   </div>
+  </main>
 
-  
 ` }} />
     </>
   );

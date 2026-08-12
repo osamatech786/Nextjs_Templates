@@ -5,11 +5,153 @@ import Head from 'next/head';
 
 export default function design2glassmorphismdashboardTemplate() {
   useEffect(() => {
-    // Run the extracted script
-    try {
-      
-    } catch(e) {
-      console.error("Error running template script:", e);
+    // Render the calendar for the current month so "today" stays correct
+    const grid = document.getElementById('calendar-grid');
+    if (grid) {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const today = now.getDate();
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const monthName = now.toLocaleString('en-US', { month: 'long' });
+
+      const titleEl = document.querySelector('.calendar-header h3');
+      if (titleEl) titleEl.textContent = `${monthName} ${year}`;
+
+      // Sample event dates for the current month
+      const eventDays = new Set([16, 18, 24]);
+
+      let html = '';
+      ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach(d => {
+        html += `<div class="calendar-day-name">${d}</div>`;
+      });
+      for (let i = 0; i < firstDay; i++) {
+        html += '<div class="calendar-day"></div>';
+      }
+      for (let d = 1; d <= daysInMonth; d++) {
+        const classes = ['calendar-day'];
+        if (d === today) classes.push('today');
+        if (eventDays.has(d)) classes.push('has-event');
+        html += `<div class="${classes.join(' ')}">${d}</div>`;
+      }
+      grid.innerHTML = html;
+    }
+
+    // Wire sidebar nav clicks (toggles .active class)
+    document.querySelectorAll('.nav-link').forEach((link) => {
+      link.addEventListener('click', function (this: HTMLElement) {
+        document.querySelectorAll('.nav-link').forEach((l) => l.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // Load Chart.js from CDN, then paint both charts onto the existing canvases
+    const initCharts = () => {
+      // @ts-ignore - Chart.js attaches to window at runtime
+      const Chart = window.Chart;
+      if (!Chart) return;
+
+      const lineCanvas = document.getElementById('lineChart') as HTMLCanvasElement | null;
+      const doughnutCanvas = document.getElementById('doughnutChart') as HTMLCanvasElement | null;
+      if (!lineCanvas || !doughnutCanvas) return;
+
+      const lineCtx = lineCanvas.getContext('2d');
+      if (lineCtx) {
+        const lineGradient = lineCtx.createLinearGradient(0, 0, 0, 300);
+        lineGradient.addColorStop(0, 'rgba(0, 212, 255, 0.5)');
+        lineGradient.addColorStop(1, 'rgba(0, 212, 255, 0)');
+        new Chart(lineCtx, {
+          type: 'line',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+              label: 'Revenue',
+              data: [30000, 35000, 32000, 45000, 42000, 55000, 48000, 60000, 58000, 72000, 68000, 85000],
+              borderColor: '#00d4ff',
+              backgroundColor: lineGradient,
+              borderWidth: 3,
+              fill: true,
+              tension: 0.4,
+              pointBackgroundColor: '#00d4ff',
+              pointBorderColor: '#fff',
+              pointBorderWidth: 2,
+              pointRadius: 6,
+              pointHoverRadius: 8,
+            }],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                borderColor: '#00d4ff',
+                borderWidth: 1,
+                padding: 12,
+                displayColors: false,
+              },
+            },
+            scales: {
+              x: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: 'rgba(255, 255, 255, 0.6)' } },
+              y: { grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: 'rgba(255, 255, 255, 0.6)' } },
+            },
+          },
+        });
+      }
+
+      const doughnutCtx = doughnutCanvas.getContext('2d');
+      if (doughnutCtx) {
+        new Chart(doughnutCtx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Electronics', 'Fashion', 'Home & Garden'],
+            datasets: [{
+              data: [45, 30, 25],
+              backgroundColor: ['#00d4ff', '#ff006e', '#8338ec'],
+              borderWidth: 0,
+              hoverOffset: 10,
+            }],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                borderColor: 'rgba(255, 255, 255, 0.2)',
+                borderWidth: 1,
+                padding: 12,
+              },
+            },
+          },
+        });
+      }
+    };
+
+    // Add hover effect to nav items
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function(this: Element) {
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // @ts-ignore
+    if (window.Chart) {
+      initCharts();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+      script.onload = initCharts;
+      document.head.appendChild(script);
     }
   }, []);
 
@@ -477,18 +619,71 @@ export default function design2glassmorphismdashboardTemplate() {
         }
 
         .calendar-nav button {
-            width: 32px;
-            height: 32px;
+            width: 44px;
+            height: 44px;
             border: none;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .calendar-nav button:hover {
             background: rgba(255, 255, 255, 0.2);
+        }
+
+        .calendar-nav button:focus-visible {
+            outline: 2px solid #00d4ff;
+            outline-offset: 2px;
+        }
+
+        /* Skip-to-content link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #00d4ff;
+            color: #0a0a0f;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0 0 8px 0;
+            font-weight: 600;
+            text-decoration: none;
+            z-index: 1000;
+            transition: top 0.2s ease;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Focus states for interactive elements */
+        .nav-link:focus-visible,
+        .notification-bell:focus-visible,
+        .view-all:focus-visible,
+        .search-box:focus-within {
+            outline: 2px solid #00d4ff;
+            outline-offset: 2px;
+        }
+
+        /* Reduced motion: neutralize transforms and animations */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            .nav-link:hover,
+            .nav-link.active,
+            .stat-card:hover,
+            .notification-bell:hover {
+                transform: none !important;
+            }
         }
 
         .calendar-grid {
@@ -585,58 +780,59 @@ export default function design2glassmorphismdashboardTemplate() {
         }
     ` }} />
       <div dangerouslySetInnerHTML={{ __html: `
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="dashboard">
-        <aside class="sidebar">
+        <aside class="sidebar" aria-label="Primary navigation">
             <div class="logo">
-                <i class="fas fa-cube"></i>
+                <i class="fas fa-cube" aria-hidden="true"></i>
                 <span>Nexus</span>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a class="nav-link active">
-                        <i class="fas fa-home"></i>
+                    <a class="nav-link active" role="button" tabindex="0" aria-current="page" aria-label="Dashboard">
+                        <i class="fas fa-home" aria-hidden="true"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="fas fa-chart-line"></i>
+                    <a class="nav-link" role="button" tabindex="0" aria-label="Analytics">
+                        <i class="fas fa-chart-line" aria-hidden="true"></i>
                         <span>Analytics</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="fas fa-shopping-cart"></i>
+                    <a class="nav-link" role="button" tabindex="0" aria-label="Orders">
+                        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
                         <span>Orders</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="fas fa-users"></i>
+                    <a class="nav-link" role="button" tabindex="0" aria-label="Customers">
+                        <i class="fas fa-users" aria-hidden="true"></i>
                         <span>Customers</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="fas fa-box"></i>
+                    <a class="nav-link" role="button" tabindex="0" aria-label="Products">
+                        <i class="fas fa-box" aria-hidden="true"></i>
                         <span>Products</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="fas fa-calendar"></i>
+                    <a class="nav-link" role="button" tabindex="0" aria-label="Calendar">
+                        <i class="fas fa-calendar" aria-hidden="true"></i>
                         <span>Calendar</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="fas fa-cog"></i>
+                    <a class="nav-link" role="button" tabindex="0" aria-label="Settings">
+                        <i class="fas fa-cog" aria-hidden="true"></i>
                         <span>Settings</span>
                     </a>
                 </li>
             </ul>
             <div class="user-profile">
-                <div class="user-avatar">JD</div>
+                <div class="user-avatar" aria-hidden="true">JD</div>
                 <div class="user-info">
                     <h4>John Doe</h4>
                     <span>Admin</span>
@@ -644,7 +840,7 @@ export default function design2glassmorphismdashboardTemplate() {
             </div>
         </aside>
 
-        <main class="main-content">
+        <main class="main-content" id="main-content" tabindex="-1">
             <header class="header">
                 <div class="header-left">
                     <h1>Welcome back, John</h1>
@@ -652,13 +848,13 @@ export default function design2glassmorphismdashboardTemplate() {
                 </div>
                 <div class="header-right">
                     <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search anything...">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                        <input type="text" placeholder="Search anything..." aria-label="Search">
                     </div>
-                    <div class="notification-bell">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
-                    </div>
+                    <button type="button" class="notification-bell" aria-label="Notifications, 3 unread">
+                        <i class="fas fa-bell" aria-hidden="true"></i>
+                        <span class="notification-badge" aria-hidden="true">3</span>
+                    </button>
                 </div>
             </header>
 
@@ -716,7 +912,7 @@ export default function design2glassmorphismdashboardTemplate() {
                         </select>
                     </div>
                     <div class="chart-container">
-                        <canvas id="lineChart"></canvas>
+                        <canvas id="lineChart" role="img" aria-label="Monthly revenue trend line chart for January through December"></canvas>
                     </div>
                 </div>
                 <div class="chart-card doughnut-card">
@@ -724,7 +920,7 @@ export default function design2glassmorphismdashboardTemplate() {
                         <h3>Sales Distribution</h3>
                     </div>
                     <div class="chart-container">
-                        <canvas id="doughnutChart"></canvas>
+                        <canvas id="doughnutChart" role="img" aria-label="Sales distribution: Electronics 45 percent, Fashion 30 percent, Home and Garden 25 percent"></canvas>
                     </div>
                     <div class="doughnut-legend">
                         <div class="legend-item">
@@ -756,7 +952,7 @@ export default function design2glassmorphismdashboardTemplate() {
                 <div class="activity-card">
                     <div class="activity-header">
                         <h3>Recent Activity</h3>
-                        <span class="view-all">View All</span>
+                        <span class="view-all" role="button" tabindex="0" aria-label="View all recent activity">View All</span>
                     </div>
                     <div class="activity-list">
                         <div class="activity-item">
@@ -798,11 +994,11 @@ export default function design2glassmorphismdashboardTemplate() {
                     <div class="calendar-header">
                         <h3>Calendar</h3>
                         <div class="calendar-nav">
-                            <button><i class="fas fa-chevron-left"></i></button>
-                            <button><i class="fas fa-chevron-right"></i></button>
+                            <button type="button" aria-label="Previous month"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+                            <button type="button" aria-label="Next month"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
                         </div>
                     </div>
-                    <div class="calendar-grid">
+                    <div id="calendar-grid" class="calendar-grid">
                         <div class="calendar-day-name">Sun</div>
                         <div class="calendar-day-name">Mon</div>
                         <div class="calendar-day-name">Tue</div>
@@ -857,112 +1053,6 @@ export default function design2glassmorphismdashboardTemplate() {
             </div>
         </main>
     </div>
-
-    <script>
-        // Line Chart
-        const lineCtx = document.getElementById('lineChart').getContext('2d');
-        const lineGradient = lineCtx.createLinearGradient(0, 0, 0, 300);
-        lineGradient.addColorStop(0, 'rgba(0, 212, 255, 0.5)');
-        lineGradient.addColorStop(1, 'rgba(0, 212, 255, 0)');
-
-        new Chart(lineCtx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                datasets: [{
-                    label: 'Revenue',
-                    data: [30000, 35000, 32000, 45000, 42000, 55000, 48000, 60000, 58000, 72000, 68000, 85000],
-                    borderColor: '#00d4ff',
-                    backgroundColor: lineGradient,
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4,
-                    pointBackgroundColor: '#00d4ff',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointRadius: 6,
-                    pointHoverRadius: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                        titleColor: '#fff',
-                        bodyColor: '#fff',
-                        borderColor: '#00d4ff',
-                        borderWidth: 1,
-                        padding: 12,
-                        displayColors: false
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        },
-                        ticks: {
-                            color: 'rgba(255, 255, 255, 0.6)'
-                        }
-                    },
-                    y: {
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        },
-                        ticks: {
-                            color: 'rgba(255, 255, 255, 0.6)'
-                        }
-                    }
-                }
-            }
-        });
-
-        // Doughnut Chart
-        const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
-        new Chart(doughnutCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Electronics', 'Fashion', 'Home & Garden'],
-                datasets: [{
-                    data: [45, 30, 25],
-                    backgroundColor: ['#00d4ff', '#ff006e', '#8338ec'],
-                    borderWidth: 0,
-                    hoverOffset: 10
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '70%',
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                        titleColor: '#fff',
-                        bodyColor: '#fff',
-                        borderColor: 'rgba(255, 255, 255, 0.2)',
-                        borderWidth: 1,
-                        padding: 12
-                    }
-                }
-            }
-        });
-
-        // Add hover effect to nav items
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function() {
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-    </script>
 ` }} />
     </>
   );

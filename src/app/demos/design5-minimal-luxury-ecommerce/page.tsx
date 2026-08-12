@@ -116,6 +116,23 @@ export default function design5minimalluxuryecommerceTemplate() {
             line-height: 1.6;
         }
 
+        /* Skip to content link */
+        .skip-to-content {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #1a1a1a;
+            color: white;
+            padding: 0.5rem 1rem;
+            z-index: 9999;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .skip-to-content:focus {
+            top: 0;
+        }
+
         /* Navigation */
         .nav {
             position: fixed;
@@ -172,6 +189,7 @@ export default function design5minimalluxuryecommerceTemplate() {
             display: flex;
             align-items: center;
             gap: 2rem;
+            color: #1a1a1a;
         }
 
         .nav-search {
@@ -223,6 +241,12 @@ export default function design5minimalluxuryecommerceTemplate() {
             0% { transform: scale(0); }
             50% { transform: scale(1.2); }
             100% { transform: scale(1); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cart-count {
+                animation: none;
+            }
         }
 
         /* Hero Section */
@@ -293,6 +317,7 @@ export default function design5minimalluxuryecommerceTemplate() {
             font-weight: 400;
             line-height: 1.1;
             margin-bottom: 2rem;
+            color: #1a1a1a;
             opacity: 0;
             transform: translateY(30px);
             animation: fadeUp 0.8s ease 0.5s forwards;
@@ -917,15 +942,17 @@ export default function design5minimalluxuryecommerceTemplate() {
         }
     ` }} />
       <div dangerouslySetInnerHTML={{ __html: `
-    <nav class="nav">
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+    <header>
+    <nav class="nav" aria-label="Main navigation">
         <div class="nav-inner">
-            <div class="logo" style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 600; letter-spacing: 3px;">LUXE</div>
+            <a href="/" aria-label="LUXE home" class="logo" style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 600; letter-spacing: 3px; color: #1a1a1a; text-decoration: none;">LUXE</a>
             <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Shop</a></li>
-                <li><a href="#">Collections</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Journal</a></li>
+                <li><a href="#" aria-label="Navigate to Home">Home</a></li>
+                <li><a href="#" aria-label="Navigate to Shop">Shop</a></li>
+                <li><a href="#" aria-label="Navigate to Collections">Collections</a></li>
+                <li><a href="#" aria-label="Navigate to About">About</a></li>
+                <li><a href="#" aria-label="Navigate to Journal">Journal</a></li>
             </ul>
             <div class="nav-actions">
                 <div class="nav-search">
@@ -946,10 +973,12 @@ export default function design5minimalluxuryecommerceTemplate() {
             </div>
         </div>
     </nav>
+    </header>
 
-    <section class="hero">
+    <main id="main-content">
+    <section class="hero" aria-label="Hero">
         <div class="hero-bg">
-            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200" alt="Fashion">
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200" alt="Fashion model wearing elegant clothing" width="1200" height="800">
         </div>
         <div class="hero-content">
             <div class="hero-text">
@@ -966,35 +995,35 @@ export default function design5minimalluxuryecommerceTemplate() {
         </div>
     </section>
 
-    <section class="categories">
+    <section class="categories" aria-label="Categories">
         <div class="section-header">
             <h2 class="section-title">Shop by Category</h2>
-            <a href="#" class="section-link">View All Categories</a>
+            <a href="#" class="section-link" aria-label="View all categories">View All Categories</a>
         </div>
         <div class="categories-grid">
             <div class="category-card">
-                <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600" alt="Fashion">
+                <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600" alt="Fashion category showing clothing items" width="600" height="800">
                 <div class="category-overlay">
                     <h3>Fashion</h3>
                     <span>Shop Now</span>
                 </div>
             </div>
             <div class="category-card">
-                <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600" alt="Men">
+                <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600" alt="Men's fashion category" width="600" height="800">
                 <div class="category-overlay">
                     <h3>Men</h3>
                     <span>Shop Now</span>
                 </div>
             </div>
             <div class="category-card">
-                <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=600" alt="Accessories">
+                <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=600" alt="Accessories category including bags and jewelry" width="600" height="800">
                 <div class="category-overlay">
                     <h3>Accessories</h3>
                     <span>Shop Now</span>
                 </div>
             </div>
             <div class="category-card">
-                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600" alt="Shoes">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600" alt="Shoes collection featuring sneakers and footwear" width="600" height="800">
                 <div class="category-overlay">
                     <h3>Shoes</h3>
                     <span>Shop Now</span>
@@ -1003,24 +1032,24 @@ export default function design5minimalluxuryecommerceTemplate() {
         </div>
     </section>
 
-    <section class="products">
+    <section class="products" aria-label="Featured Products">
         <div class="products-inner">
             <div class="products-header">
                 <h2>Featured Products</h2>
                 <p>Handpicked selections from our latest collection, designed to complement your lifestyle.</p>
             </div>
-            <div class="filters">
-                <span class="filter-tag active">All</span>
-                <span class="filter-tag">New Arrivals</span>
-                <span class="filter-tag">Best Sellers</span>
-                <span class="filter-tag">Sale</span>
+            <div class="filters" role="group" aria-label="Product filters">
+                <button type="button" class="filter-tag active" aria-pressed="true">All</button>
+                <button type="button" class="filter-tag" aria-pressed="false">New Arrivals</button>
+                <button type="button" class="filter-tag" aria-pressed="false">Best Sellers</button>
+                <button type="button" class="filter-tag" aria-pressed="false">Sale</button>
             </div>
             <div class="products-grid">
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600" alt="Product">
+                        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600" alt="Cashmere Blend Coat in camel color" width="600" height="600">
                         <span class="product-badge">New</span>
-                        <div class="quick-view">Quick View</div>
+                        <div class="quick-view" role="button" tabindex="0" aria-label="Quick view of Cashmere Blend Coat">Quick View</div>
                     </div>
                     <div class="product-info">
                         <p class="product-category">Outerwear</p>
@@ -1030,8 +1059,8 @@ export default function design5minimalluxuryecommerceTemplate() {
                 </div>
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600" alt="Product">
-                        <div class="quick-view">Quick View</div>
+                        <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600" alt="Merino Wool Sweater in navy blue" width="600" height="600">
+                        <div class="quick-view" role="button" tabindex="0" aria-label="Quick view of Merino Wool Sweater">Quick View</div>
                     </div>
                     <div class="product-info">
                         <p class="product-category">Knitwear</p>
@@ -1041,9 +1070,9 @@ export default function design5minimalluxuryecommerceTemplate() {
                 </div>
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600" alt="Product">
+                        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600" alt="Leather Tote Bag in burgundy" width="600" height="600">
                         <span class="product-badge">Bestseller</span>
-                        <div class="quick-view">Quick View</div>
+                        <div class="quick-view" role="button" tabindex="0" aria-label="Quick view of Leather Tote Bag">Quick View</div>
                     </div>
                     <div class="product-info">
                         <p class="product-category">Accessories</p>
@@ -1053,8 +1082,8 @@ export default function design5minimalluxuryecommerceTemplate() {
                 </div>
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600" alt="Product">
-                        <div class="quick-view">Quick View</div>
+                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600" alt="Premium Leather Sneakers in white" width="600" height="600">
+                        <div class="quick-view" role="button" tabindex="0" aria-label="Quick view of Premium Leather Sneakers">Quick View</div>
                     </div>
                     <div class="product-info">
                         <p class="product-category">Footwear</p>
@@ -1066,9 +1095,9 @@ export default function design5minimalluxuryecommerceTemplate() {
         </div>
     </section>
 
-    <section class="brand-story">
+    <section class="brand-story" aria-label="Brand Story">
         <div class="brand-image">
-            <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800" alt="Brand">
+            <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800" alt="Brand workshop showing craftsmanship" width="800" height="600">
         </div>
         <div class="brand-content">
             <h2>Crafted with Passion, Worn with Confidence</h2>
@@ -1091,7 +1120,7 @@ export default function design5minimalluxuryecommerceTemplate() {
         </div>
     </section>
 
-    <section class="testimonials">
+    <section class="testimonials" aria-label="Customer Testimonials">
         <div class="testimonials-inner">
             <h2>What Our Clients Say</h2>
             <div class="testimonial-slider">
@@ -1119,12 +1148,12 @@ export default function design5minimalluxuryecommerceTemplate() {
         </div>
     </section>
 
-    <section class="newsletter">
+    <section class="newsletter" aria-label="Newsletter subscription">
         <div class="newsletter-inner">
             <h2>Join the LUXE Community</h2>
             <p>Subscribe to receive exclusive previews, styling tips, and early access to new collections.</p>
             <form class="newsletter-form">
-                <input type="email" placeholder="Enter your email address">
+                <input type="email" placeholder="Enter your email address" aria-label="Email address">
                 <button type="submit">Subscribe</button>
             </form>
         </div>
@@ -1162,13 +1191,14 @@ export default function design5minimalluxuryecommerceTemplate() {
             <div class="footer-bottom">
                 <p>2024 LUXE. All rights reserved.</p>
                 <div class="footer-social">
-                    <a href="#">f</a>
-                    <a href="#">in</a>
-                    <a href="#">ig</a>
+                    <a href="#" aria-label="Follow us on Facebook">f</a>
+                    <a href="#" aria-label="Follow us on LinkedIn">in</a>
+                    <a href="#" aria-label="Follow us on Instagram">ig</a>
                 </div>
             </div>
         </div>
     </footer>
+    </main>
 
     
 ` }} />
