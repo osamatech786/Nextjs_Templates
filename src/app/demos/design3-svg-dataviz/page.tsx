@@ -115,7 +115,10 @@ export default function design3svgdatavizTemplate() {
       });
     }, { threshold: 0.3 });
 
-    observer.observe(document.querySelector('.dashboard'));
+    const dashboard = document.querySelector('.dashboard');
+    if (dashboard) observer.observe(dashboard);
+    
+    return () => observer.disconnect();
   
     } catch(e) {
       console.error("Error running template script:", e);
@@ -127,11 +130,11 @@ export default function design3svgdatavizTemplate() {
       <Head>
         <title>SVG Data Visualization</title>
       </Head>
-      <div dangerouslySetInnerHTML={{ __html: `<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+      <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: `<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 ` }} />
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style suppressHydrationWarning dangerouslySetInnerHTML={{ __html: `
     *, *::before, *::after {
       margin: 0;
       padding: 0;
@@ -523,9 +526,9 @@ export default function design3svgdatavizTemplate() {
       }
     }
   ` }} />
-      <a href="#main-content" class="skip-link">Skip to main content</a>
+      <a href="#main-content" className="skip-link">Skip to main content</a>
   <main id="main-content">
-    <div dangerouslySetInnerHTML={{ __html: `
+    <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: `
   <div class="dashboard">
     <!-- Radial Rings -->
     <article class="card card-rings" aria-labelledby="rings-title">

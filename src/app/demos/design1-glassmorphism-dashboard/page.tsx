@@ -554,6 +554,58 @@ export default function EnterpriseHrDashboard() {
             color: #64748b;
           }
 
+          /* Responsive Design */
+          @media (max-width: 1100px) {
+            .content-grid {
+              flex-direction: column;
+              overflow-y: auto;
+            }
+            .main-table-section, .side-widgets {
+              flex: none;
+              width: 100%;
+              overflow: visible;
+            }
+            .side-widgets {
+              flex-direction: row;
+            }
+            .widget {
+              flex: 1;
+            }
+          }
+
+          @media (max-width: 900px) {
+            .sidebar {
+              display: none;
+            }
+            .app-container {
+              width: 100vw;
+              height: 100vh;
+              border-radius: 0;
+            }
+            .side-widgets {
+              flex-direction: column;
+            }
+            .search-box {
+              width: 250px;
+            }
+          }
+
+          @media (max-width: 600px) {
+            .header {
+              padding: 0 1rem;
+            }
+            .search-box {
+              display: none;
+            }
+            .main-table-section {
+              padding: 1rem;
+            }
+            .glass-table {
+              display: block;
+              overflow-x: auto;
+              white-space: nowrap;
+            }
+          }
         `}</style>
       </div>
     </>

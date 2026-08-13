@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Mail, Calendar } from "lucide-react";
 
 const templates = [
   // Signature Experience
@@ -82,8 +82,21 @@ export default function Home() {
         {/* Left Side: Massive Typography List */}
         <div className="portal-left" ref={scrollRef}>
           <div className="portal-header">
-            <h1 className="brand-name">OSAMATECH786</h1>
-            <p className="brand-subtitle">Curated Frontend Masterpieces</p>
+            <div className="brand-title-row">
+              <h1 className="brand-name">MUHAMMAD OSAMA AHMED</h1>
+              <div className="social-3d-buttons">
+                <a href="https://linkedin.com/in/osamatech786" target="_blank" rel="noopener noreferrer" className="btn-3d" aria-label="LinkedIn Profile">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                </a>
+                <a href="mailto:osamatech786@example.com" className="btn-3d" aria-label="Email Me">
+                  <Mail size={20} />
+                </a>
+                <a href="https://calendly.com/" target="_blank" rel="noopener noreferrer" className="btn-3d" aria-label="Book a meeting on Calendly">
+                  <Calendar size={20} />
+                </a>
+              </div>
+            </div>
+            <p className="brand-subtitle">I design unique pages, not AI slop.</p>
           </div>
           
           <nav className="project-list">
@@ -248,6 +261,45 @@ export default function Home() {
 
         .portal-header {
           margin-bottom: 6rem;
+        }
+        .brand-title-row {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+          flex-wrap: wrap;
+        }
+        .social-3d-buttons {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+        .btn-3d {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 44px;
+          height: 44px;
+          background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+          border: 1px solid #333;
+          border-radius: 12px;
+          color: #fff;
+          text-decoration: none;
+          box-shadow: 
+            4px 4px 10px rgba(0, 0, 0, 0.8),
+            -2px -2px 10px rgba(255, 255, 255, 0.05),
+            inset 1px 1px 2px rgba(255,255,255,0.1);
+          transform: perspective(400px) rotateX(15deg) rotateY(-15deg) translateY(0);
+          transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          /* pointer-events to auto if cursor is none, wait actually we want clicks! */
+        }
+        .btn-3d:hover {
+          transform: perspective(400px) rotateX(0deg) rotateY(0deg) translateY(-5px);
+          background: linear-gradient(145deg, #6366f1, #4f46e5);
+          border-color: #6366f1;
+          box-shadow: 
+            0px 10px 20px rgba(99, 102, 241, 0.4),
+            inset 1px 1px 2px rgba(255,255,255,0.3);
+          color: #fff;
         }
         .brand-name {
           font-family: var(--font-outfit), sans-serif;

@@ -1,0 +1,39 @@
+:root {
+  --bg: #0E0E0C;
+  --fg: #F2EDE4;
+  --accent: #FF5C2C;
+  --muted: #6B6B66;
+  --rule: rgba(242, 237, 228, 0.08);
+  --rule-strong: rgba(242, 237, 228, 0.18);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+body {
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

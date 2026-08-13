@@ -5,11 +5,13 @@ import Head from 'next/head';
 
 export default function design4neuaudioplayerTemplate() {
   useEffect(() => {
+    let player = null;
     // Run the extracted script
     try {
       
     class AudioPlayer {
       constructor() {
+        this.abortController = new AbortController();
         this.isPlaying = false;
         this.currentTrack = 0;
         this.volume = 0.7;
@@ -86,7 +88,7 @@ export default function design4neuaudioplayerTemplate() {
           item.addEventListener('click', () => this.selectTrack(index));
         });
 
-        window.addEventListener('resize', () => this.setupCanvas());
+        window.addEventListener('resize', () => this.setupCanvas(), { signal: this.abortController.signal });
       }
 
       makeDraggable(element, onMove) {
@@ -124,23 +126,25 @@ export default function design4neuaudioplayerTemplate() {
 
         document.addEventListener('mousemove', (e) => {
           if (isDragging) update(e);
-        });
+        }, { signal: this.abortController.signal });
 
         document.addEventListener('touchmove', (e) => {
           if (isDragging) update(e);
-        });
+        }, { signal: this.abortController.signal });
 
-        document.addEventListener('mouseup', () => { isDragging = false; });
-        document.addEventListener('touchend', () => { isDragging = false; });
+        document.addEventListener('mouseup', () => { isDragging = false; }, { signal: this.abortController.signal });
+        document.addEventListener('touchend', () => { isDragging = false; }, { signal: this.abortController.signal });
       }
 
       togglePlay() {
         this.isPlaying = !this.isPlaying;
         const btn = document.querySelector('.play-btn');
-        btn.classList.toggle('playing', this.isPlaying);
+        if (btn) btn.classList.toggle('playing', this.isPlaying);
 
         if (!this.isPlaying) {
           this.targetHeights = this.targetHeights.map(() => 0.15);
+        } else if (!this.animationId) {
+          this.animate();
         }
       }
 
@@ -219,8 +223,12 @@ export default function design4neuaudioplayerTemplate() {
       }
 
       animate() {
-        this.updateWaveform();
-        this.animationId = requestAnimationFrame(() => this.animate());
+        const isIdle = this.updateWaveform();
+        if (!isIdle) {
+          this.animationId = requestAnimationFrame(() => this.animate());
+        } else {
+          this.animationId = null;
+        }
       }
 
       updateWaveform() {
@@ -230,6 +238,7 @@ export default function design4neuaudioplayerTemplate() {
         const gap = (this.width / this.barCount) * 0.3;
         const maxHeight = this.height * 0.9;
         const minHeight = this.height * 0.15;
+        let allIdle = !this.isPlaying;
 
         for (let i = 0; i < this.barCount; i++) {
           if (this.isPlaying) {
@@ -238,6 +247,9 @@ export default function design4neuaudioplayerTemplate() {
           } else {
             this.targetHeights[i] = 0.15;
             this.barHeights[i] += (this.targetHeights[i] - this.barHeights[i]) * 0.1;
+            if (Math.abs(this.barHeights[i] - this.targetHeights[i]) > 0.01) {
+              allIdle = false;
+            }
           }
 
           const height = minHeight + (maxHeight - minHeight) * this.barHeights[i];
@@ -253,16 +265,23 @@ export default function design4neuaudioplayerTemplate() {
           this.ctx.roundRect(x, y, barWidth, height, 3);
           this.ctx.fill();
         }
+        return allIdle;
+      }
+
+      destroy() {
+        if (this.animationId) cancelAnimationFrame(this.animationId);
+        this.abortController.abort();
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      new AudioPlayer();
-    });
+    player = new AudioPlayer();
   
     } catch(e) {
       console.error("Error running template script:", e);
     }
+    return () => {
+      if (player) player.destroy();
+    };
   }, []);
 
   return (
@@ -270,9 +289,9 @@ export default function design4neuaudioplayerTemplate() {
       <Head>
         <title>Neumorphic Audio Player</title>
       </Head>
-      <div dangerouslySetInnerHTML={{ __html: `` }} />
-      <a href="#player-card" class="skip-to-content">Skip to content</a>
-      <style dangerouslySetInnerHTML={{ __html: `
+      <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: `` }} />
+      <a href="#player-card" className="skip-to-content">Skip to content</a>
+      <style suppressHydrationWarning dangerouslySetInnerHTML={{ __html: `
     :root {
       --bg-light: #E8D5C4;
       --bg-dark: #D4C4E8;
@@ -698,7 +717,7 @@ export default function design4neuaudioplayerTemplate() {
       }
     }
   ` }} />
-      <div dangerouslySetInnerHTML={{ __html: `
+      <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: `
   <div class="background"></div>
 
   <main id="player-card" class="player-card">

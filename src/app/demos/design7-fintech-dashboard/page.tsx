@@ -377,7 +377,7 @@ export default function CorporateExpenseDashboard() {
           /* Metrics */
           .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2.5rem;
           }
@@ -587,6 +587,35 @@ export default function CorporateExpenseDashboard() {
           }
           .tx-amount.positive {
             color: #10b981;
+          }
+
+          /* Responsive Design */
+          @media (max-width: 900px) {
+            .sidebar {
+              display: none;
+            }
+            .dashboard-content {
+              padding: 1.5rem;
+            }
+            .metrics-grid {
+              grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            .search-bar {
+              width: 200px;
+            }
+          }
+
+          @media (max-width: 600px) {
+            .topbar {
+              padding: 0 1rem;
+            }
+            .search-bar {
+              display: none;
+            }
+            .data-section {
+              padding: 1rem;
+              overflow-x: auto;
+            }
           }
         `}</style>
       </div>
