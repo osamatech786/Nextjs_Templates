@@ -129,6 +129,7 @@ export default function Home() {
           <div className="portal-footer" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <p style={{ color: '#cbd5e1', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Let's build something amazing</p>
             <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+
               <a href="https://calendly.com/osamatech786-jdqf/20min" target="_blank" rel="noopener noreferrer" className="hire-btn">
                 Book a Call <ArrowUpRight className="icon" />
               </a>
@@ -140,6 +141,18 @@ export default function Home() {
               </a>
             </div>
           </div>
+          
+          {/* AI Portfolio Promo Banner */}
+          <div className="ai-promo-banner">
+            <div className="ai-promo-bg-glow"></div>
+            <div className="ai-promo-content">
+              <h3>I design agentic systems for enterprises and businesses.</h3>
+              <a href="https://osamatech786.github.io/" target="_blank" rel="noopener noreferrer" className="ai-promo-btn">
+                <span>View AI Portfolio</span> <ArrowRight className="icon ai-btn-arrow" size={18} />
+              </a>
+            </div>
+          </div>
+
         </div>
 
         {/* Right Side: The Live Preview Iframe */}
@@ -396,9 +409,101 @@ export default function Home() {
           transform: translateY(0);
         }
 
+        /* AI Promo Banner */
+        .ai-promo-banner {
+          position: relative;
+          margin-top: 4rem;
+          padding: 2rem;
+          background: linear-gradient(145deg, rgba(20,20,20,0.8), rgba(5,5,5,0.9));
+          border: 1px solid rgba(198, 240, 45, 0.2);
+          border-radius: 16px;
+          overflow: hidden;
+          flex-shrink: 0;
+          transition: transform 0.4s ease, border-color 0.4s ease;
+        }
+        .ai-promo-banner:hover {
+          transform: translateY(-5px);
+          border-color: rgba(198, 240, 45, 0.5);
+        }
+        .ai-promo-bg-glow {
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle at center, rgba(198, 240, 45, 0.1) 0%, transparent 50%);
+          pointer-events: none;
+          z-index: 0;
+        }
+        .ai-promo-content {
+          position: relative;
+          z-index: 10;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          gap: 2rem;
+          flex-wrap: wrap;
+        }
+        .ai-promo-content h3 {
+          font-family: var(--font-outfit), sans-serif;
+          font-size: 1.25rem;
+          font-weight: 500;
+          color: #e2e8f0;
+          line-height: 1.4;
+          margin: 0;
+          flex: 1;
+        }
+        .ai-promo-btn {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.75rem;
+          font-size: 0.85rem;
+          font-weight: 800;
+          color: #000;
+          background: #C6F02D;
+          padding: 0.85rem 1.75rem;
+          border-radius: 9999px;
+          text-decoration: none;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          flex-shrink: 0;
+          overflow: hidden;
+          box-shadow: 0 10px 25px -10px rgba(198, 240, 45, 0.7);
+          transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+          cursor: pointer;
+        }
+        .ai-promo-btn::before {
+          content: '';
+          position: absolute;
+          top: 0; left: -100%;
+          width: 50%; height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+          transform: skewX(-20deg);
+          animation: shimmer 3s infinite linear;
+          pointer-events: none;
+        }
+        @keyframes shimmer {
+          0% { left: -100%; }
+          20% { left: 200%; }
+          100% { left: 200%; }
+        }
+        .ai-promo-btn:hover {
+          transform: translateY(-3px) scale(1.02);
+          box-shadow: 0 15px 30px -10px rgba(198, 240, 45, 0.9);
+          background: #d4f54e;
+        }
+        .ai-btn-arrow {
+          transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .ai-promo-btn:hover .ai-btn-arrow {
+          transform: translateX(6px);
+        }
+
         .portal-footer {
           margin-top: auto;
-          padding-top: 6rem;
+          padding-top: 4rem;
         }
         .hire-btn {
           display: inline-flex;
