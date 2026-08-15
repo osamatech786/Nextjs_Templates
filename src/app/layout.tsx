@@ -31,6 +31,52 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={outfit.variable}>
       <body suppressHydrationWarning className="font-sans bg-black text-white antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ProfilePage",
+              "mainEntity": {
+                "@type": "Person",
+                "name": "Muhammad Osama Ahmed",
+                "jobTitle": "Frontend Developer",
+                "url": "https://osamatech786.github.io/Nextjs_Templates/",
+                "sameAs": [
+                  "https://linkedin.com/in/osamatech786",
+                  "https://osamatech786.github.io/"
+                ]
+              }
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What services does Muhammad Osama Ahmed provide?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Muhammad Osama Ahmed provides Next.js frontend development, AI agent integrations, and premium UI/UX design featuring glassmorphism and modern web animations."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How can I hire OsamaTech?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You can hire OsamaTech by booking a direct consultation via Calendly, reaching out through LinkedIn, or sending an email to discuss project requirements."
+                  }
+                }
+              ]
+            })
+          }}
+        />
         {children}
       </body>
     </html>

@@ -14,7 +14,7 @@ const templates = [
   { id: "fintech", name: "Corporate Expense Dashboard", href: "/demos/design7-fintech-dashboard", category: "Expense Management" },
   { id: "hr", name: "Enterprise HR Platform", href: "/demos/design1-glassmorphism-dashboard", category: "Internal Tools" },
   { id: "ecommerce", name: "Minimal Luxury E-commerce", href: "/demos/design5-minimal-luxury-ecommerce", category: "Retail & E-commerce" },
-  
+
   // Interactive Components & Experiments
   { id: "ai", name: "Neon Cyberpunk Landing", href: "/demos/design3-neon-cyberpunk-landing", category: "Landing Pages" },
   { id: "design1-3d", name: "Immersive 3D Hero", href: "/demos/design1-immersive-3d-portfolio", category: "3D Experiment" },
@@ -52,18 +52,18 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="portal-container" id="main-content">
+    <main className="portal-container" id="main-content">
       <a href="#main-content" className="skip-to-content">Skip to main content</a>
       {/* Ambient Mouse Glow */}
-      <div 
+      <div
         className="ambient-glow"
         style={{
           transform: `translate(${mousePosition.x - 300}px, ${mousePosition.y - 300}px)`,
         }}
       />
-      
+
       {/* Custom Cursor */}
-      <motion.div 
+      <motion.div
         className="custom-cursor"
         animate={{
           x: mousePosition.x - 10,
@@ -77,13 +77,16 @@ export default function Home() {
         {isHoveringIframe && <span className="cursor-text">VIEW</span>}
       </motion.div>
 
-      <div className="portal-split">
-        
+      <section className="portal-split">
+
         {/* Left Side: Massive Typography List */}
         <div className="portal-left" ref={scrollRef}>
-          <div className="portal-header">
+          <header className="portal-header">
             <div className="brand-title-row">
-              <h1 className="brand-name">MUHAMMAD OSAMA AHMED</h1>
+              <h1 className="brand-name">
+                MUHAMMAD OSAMA AHMED
+                <span className="sr-only"> - Premium Next.js & AI Agentic Web Developer</span>
+              </h1>
               <div className="social-3d-buttons">
                 <a href="https://linkedin.com/in/osamatech786" target="_blank" rel="noopener noreferrer" className="btn-3d" aria-label="LinkedIn Profile">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
@@ -96,9 +99,16 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <p className="brand-subtitle">I design unique pages, not AI slop.</p>
-          </div>
-          
+            <p className="brand-subtitle" style={{ lineHeight: '1.6', maxWidth: '80%' }}>
+              Osama is a Premium Next.js Web Developer specializing in glassmorphism interfaces and high-performance React applications.
+            </p>
+            <div className="key-metrics" style={{ marginTop: '1rem', display: 'flex', gap: '1.5rem', fontSize: '0.85rem', color: '#888' }}>
+              <span><strong style={{ color: '#fff' }}>5+</strong> Years Experience</span>
+              <span><strong style={{ color: '#fff' }}>9+</strong> Enterprise Projects</span>
+              <span><strong style={{ color: '#fff' }}>100/100</strong> Core Web Vitals</span>
+            </div>
+          </header>
+
           <nav className="project-list">
             {templates.map((template, index) => {
               const isActive = activeTemplate.id === template.id;
@@ -125,8 +135,26 @@ export default function Home() {
               );
             })}
           </nav>
-          
-          <div className="portal-footer" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+
+          <div className="faq-section" style={{ marginTop: '3rem', marginBottom: '1rem', padding: '2rem', background: 'rgba(255,255,255,0.03)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
+            <h2 style={{ fontSize: '1.2rem', marginBottom: '1.5rem', fontFamily: 'var(--font-outfit), sans-serif', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Frequently Asked Questions</h2>
+
+            <div style={{ marginBottom: '1.5rem' }}>
+              <h3 style={{ fontSize: '0.95rem', color: '#e2e8f0', marginBottom: '0.5rem' }}>What services does Osama provide?</h3>
+              <p style={{ fontSize: '0.85rem', color: '#888', lineHeight: '1.6' }}>
+                Osama provides Next.js frontend development, AI agent integrations, and premium UI/UX design featuring glassmorphism and modern web animations.
+              </p>
+            </div>
+
+            <div>
+              <h3 style={{ fontSize: '0.95rem', color: '#e2e8f0', marginBottom: '0.5rem' }}>How can I hire Osama?</h3>
+              <p style={{ fontSize: '0.85rem', color: '#888', lineHeight: '1.6' }}>
+                You can hire Osama by booking a direct consultation via Calendly, reaching out through LinkedIn, or sending an email to discuss project requirements.
+              </p>
+            </div>
+          </div>
+
+          <footer className="portal-footer" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <p style={{ color: '#cbd5e1', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Let's build something amazing</p>
             <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
 
@@ -140,8 +168,8 @@ export default function Home() {
                 LinkedIn <ArrowUpRight className="icon" />
               </a>
             </div>
-          </div>
-          
+          </footer>
+
           {/* AI Portfolio Promo Banner */}
           <div className="ai-promo-banner">
             <div className="ai-promo-bg-glow"></div>
@@ -157,7 +185,7 @@ export default function Home() {
 
         {/* Right Side: The Live Preview Iframe */}
         <div className="portal-right">
-          <div 
+          <div
             className="iframe-glass-container"
             onMouseEnter={() => setIsHoveringIframe(true)}
             onMouseLeave={() => setIsHoveringIframe(false)}
@@ -171,7 +199,7 @@ export default function Home() {
               </div>
               <div className="url-bar">{displayUrl}{activeTemplate.href}</div>
             </div>
-            
+
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTemplate.id}
@@ -182,8 +210,8 @@ export default function Home() {
                 className="iframe-wrapper"
               >
                 {/* Pointer events none so it doesn't trap scroll or cursor until they actually click to visit */}
-                <iframe 
-                  src={`${process.env.NODE_ENV === 'production' ? '/Nextjs_Templates' : ''}${activeTemplate.href}`} 
+                <iframe
+                  src={`${process.env.NODE_ENV === 'production' ? '/Nextjs_Templates' : ''}${activeTemplate.href}`}
                   title={activeTemplate.name}
                   className="live-iframe"
                   tabIndex={-1}
@@ -193,7 +221,7 @@ export default function Home() {
           </div>
         </div>
 
-      </div>
+      </section>
 
       <style jsx global>{`
         /* Reset and Base Portal Styles */
@@ -644,6 +672,17 @@ export default function Home() {
           white-space: nowrap;
           border-width: 0;
         }
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border-width: 0;
+        }
         .skip-to-content:focus {
           position: fixed;
           top: 0;
@@ -663,6 +702,6 @@ export default function Home() {
           border-radius: 0 0 8px 0;
         }
       `}</style>
-    </div>
+    </main>
   );
 }
