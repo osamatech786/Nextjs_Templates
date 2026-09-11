@@ -23,7 +23,8 @@ const templates = [
   { id: "design3-dataviz", name: "SVG Data Visualization", href: "/demos/design3-svg-dataviz", category: "Data Display" },
   { id: "design4-audio", name: "Neumorphic Audio Player", href: "/demos/design4-neu-audio-player", category: "UI Component" },
   { id: "design4-fluid", name: "Organic Fluid Animation", href: "/demos/design4-organic-fluid-animation", category: "Interaction" },
-  { id: "design5-particle", name: "Particle Hero", href: "/demos/design5-particle-hero", category: "Interaction" }
+  { id: "design5-particle", name: "Particle Hero", href: "/demos/design5-particle-hero", category: "Interaction" },
+  { id: "design8-market-tiles", name: "3D Market Tiles", href: "/demos/design8-market-tiles", category: "UI Component" }
 ];
 
 export default function Home() {
