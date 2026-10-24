@@ -8,6 +8,7 @@ import { ArrowRight, ArrowUpRight, Mail, Calendar } from "lucide-react";
 const templates = [
   // Signature Experience
   { id: "demo1", name: "The Scroll-less Experience", href: "/demo1", category: "Featured Masterpiece" },
+  { id: "emersive_motion_design", name: "Emersive Motion Design", href: "/demos/emersive_motion_design", category: "Motion Showreel" },
 
   // Realistic Production Apps
   { id: "saas", name: "SaaS Pricing Matrix", href: "/demos/design6-saas-pricing", category: "B2B SaaS" },
